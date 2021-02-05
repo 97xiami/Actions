@@ -51,6 +51,7 @@ jobs:
     - name: 自定义配置
       if: ${{ success() }}
       run: |
+        cd padavan
         cp $USER_CONFIG.config /opt/rt-n56u/trunk/configs/templates/
         cp defaults.h /opt/rt-n56u/trunk/user/shared/
         cp versions.inc /opt/rt-n56u/trunk/
