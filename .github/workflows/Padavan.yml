@@ -2,11 +2,6 @@ name: Build Padavan
 
 on:
   workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
   schedule:
     - cron: 0 20 * * 0
 
@@ -16,14 +11,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
-
-    - name: 初始化环境
-      env:
-        DEBIAN_FRONTEND: noninteractive
+    - name: 安装依赖
       run: |
         sudo apt update
         sudo apt -y install unzip libtool-bin curl cmake gperf gawk \
@@ -32,24 +21,17 @@ jobs:
              pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev \
              libncurses5-dev libltdl-dev wget libc-dev-bin
         sudo timedatectl set-timezone "Asia/Shanghai"
-        
-    - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@main
-      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false')
 
     - name: 克隆源码
-      if: ${{ success() }}
       run: |
         git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
 
     - name: 配置toolchain
-      if: ${{ success() }}
       run: |
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         
     - name: 自定义配置
-      if: ${{ success() }}
       run: |
         cd padavan
         cp $USER_CONFIG.config /opt/rt-n56u/trunk/configs/templates/
@@ -59,8 +41,7 @@ jobs:
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/n56u_ribbon_fixed/Restarting.asp
 
-    - name: 编译中...
-      if: ${{ success() }}
+    - name: 开始编译
       run: |
         cd /opt/rt-n56u/trunk
         ##./clear_tree
