@@ -16,6 +16,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: 安装依赖
+      env:
+        DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt update
         sudo apt -y install unzip libtool-bin curl cmake gperf gawk \
