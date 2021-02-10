@@ -71,11 +71,3 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: 微信推送
-      run: |
-        if [ "${{ env.STATU }}" == "success" ]; then
-        curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=Padavan编译完成
-        else 
-        curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=Padavan编译失败
-        fi
