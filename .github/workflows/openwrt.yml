@@ -65,11 +65,11 @@ jobs:
         tag_name: ${{ env.FILE_NAME }}
         files: lede/bin/targets
 
-     - name: 删除旧版固件
-       if: ${{ success() }}
-       uses: dev-drprasad/delete-older-releases@master
-       with:
-         keep_latest: 3
-         delete_tags: true
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: 删除旧版固件
+      if: ${{ success() }}
+      uses: dev-drprasad/delete-older-releases@master
+      with:
+        keep_latest: 3
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
