@@ -73,5 +73,5 @@ jobs:
     - name: 删除历史workflow
       uses: GitRML/delete-workflow-runs@main
       with:
-        retain_days: 7
+        retain_days: 1
         keep_minimum_runs: 3
