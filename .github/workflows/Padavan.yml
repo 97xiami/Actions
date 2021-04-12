@@ -54,7 +54,7 @@ jobs:
 
     - name: 上传固件至release
       if: ${{ success() }}
-      uses: softprops/action-gh-release@master
+      uses: 97xiami/action-gh-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -63,7 +63,7 @@ jobs:
 
     - name: 删除旧版固件
       if: ${{ success() }}
-      uses: dev-drprasad/delete-older-releases@master
+      uses: 97xiami/delete-older-releases@master
       with:
         keep_latest: 3
         delete_tags: true
@@ -71,7 +71,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 删除历史workflow
-      uses: GitRML/delete-workflow-runs@main
+      uses: 97xiami/delete-workflow-runs@main
       with:
         retain_days: 1
         keep_minimum_runs: 3
