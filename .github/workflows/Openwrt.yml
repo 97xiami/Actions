@@ -27,7 +27,7 @@ jobs:
       run: |
         git clone https://github.com/coolsnowwolf/lede
 
-    - name: 
+    - name: 自定义
       run: |
         cp openwrt/k2p.config lede/.config
         cd lede
