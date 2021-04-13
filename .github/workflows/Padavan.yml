@@ -38,6 +38,7 @@ jobs:
         
     - name: 自定义配置
       run: |
+        cd padavan
         cp config/$USER_CONFIG.config /opt/rt-n56u/trunk/configs/templates/
         cp defaults.h /opt/rt-n56u/trunk/user/shared/
         cp versions.inc /opt/rt-n56u/trunk/
@@ -65,7 +66,7 @@ jobs:
       if: ${{ success() }}
       uses: 97xiami/delete-older-releases@master
       with:
-        keep_latest: 3
+        keep_latest: 6
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
