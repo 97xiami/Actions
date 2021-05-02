@@ -41,7 +41,6 @@ jobs:
         cp $USER_CONFIG.config /opt/rt-n56u/trunk/configs/templates/
         cp defaults.h /opt/rt-n56u/trunk/user/shared/
         cp versions.inc /opt/rt-n56u/trunk/
-        cp jquery.js /opt/rt-n56u/trunk/user/www/n56u_ribbon_fixed/
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/n56u_ribbon_fixed/Restarting.asp
 
