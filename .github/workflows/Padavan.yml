@@ -56,12 +56,13 @@ jobs:
         sed -i 's/192.168.2.100/10.0.0.10/g' defaults.h
         sed -i 's/192.168.2.1/10.0.0.1/g' defaults.h
         sed -i 's/192.168.2.244/10.0.0.30/g' defaults.h
-        sed -i 's/"US"/"CN"/g' defaults.h
-        sed -i 's/"ntp1.aliyun.com"/"ntp.ntsc.ac.cn"/g' defaults.h
+        sed -i 's/US/CN/g' defaults.h
+        sed -i 's/ntp1.aliyun.com/ntp.ntsc.ac.cn/g' defaults.h
         sed -i 's/2001:470:0:50::2/cn.ntp.org.cn/g' defaults.h
 
-        sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/dict/CN.dict
-        sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/n56u_ribbon_fixed/Restarting.asp
+        cd /opt/rt-n56u/trunk/user/www
+        sed -i 's/192.168.2.1/10.0.0.1/g' dict/CN.dict
+        sed -i 's/192.168.2.1/10.0.0.1/g' n56u_ribbon_fixed/Restarting.asp
 
     - name: 开始编译
       run: |
