@@ -38,7 +38,7 @@ jobs:
         
     - name: 自定义配置
       run: |
-        cp $USER_CONFIG.config /opt/rt-n56u/trunk/configs/templates/
+        sh diy.sh
         cp defaults.h /opt/rt-n56u/trunk/user/shared/
         cp versions.inc /opt/rt-n56u/trunk/
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/dict/CN.dict
