@@ -51,8 +51,6 @@ jobs:
         sed -i 's/MTR=y/MTR=n/g' K2P_nano.config
         sed -i 's/SOCAT=y/SOCAT=n/g' K2P_nano.config
         sed -i 's/SRELAY=y/SRELAY=n/g' K2P_nano.config
-        sed -i '$a\CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=n' K2P_nano.config
-        cat K2P_nano.config
 
         cd /opt/rt-n56u/trunk/user/shared
         sed -i 's/192.168.2.100/10.0.0.10/g' defaults.h
