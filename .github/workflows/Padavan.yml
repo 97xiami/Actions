@@ -35,9 +35,31 @@ jobs:
         
     - name: 自定义配置
       run: |
-        sh diy.sh
-        cp defaults.h /opt/rt-n56u/trunk/user/shared/
-        cp versions.inc /opt/rt-n56u/trunk/
+        cd /opt/rt-n56u/trunk/configs/templates
+        sed -i 's/SMBD36=y/SMBD36=n/g' K2P_nano.config
+        sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' K2P_nano.config
+        sed -i 's/SFTP=y/SFTP=n/g' K2P_nano.config
+        sed -i 's/OPENSSH=y/OPENSSH=n/g' K2P_nano.config
+        sed -i 's/OPENSSL_EC=y/OPENSSL_EC=n/g' K2P_nano.config
+        sed -i 's/XUPNPD=y/XUPNPD=n/g' K2P_nano.config
+        sed -i 's/FFMPEG_NEW=y/FFMPEG_NEW=n/g' K2P_nano.config
+        sed -i 's/CURL=y/CURL=n/g' K2P_nano.config
+        sed -i 's/TTYD=y/TTYD=n/g' K2P_nano.config
+        sed -i 's/HTOP=y/HTOP=n/g' K2P_nano.config
+        sed -i 's/NANO=y/NANO=n/g' K2P_nano.config
+        sed -i 's/IPERF3=y/IPERF3=n/g' K2P_nano.config
+        sed -i 's/MTR=y/MTR=n/g' K2P_nano.config
+        sed -i 's/SOCAT=y/SOCAT=n/g' K2P_nano.config
+        sed -i 's/SRELAY=y/SRELAY=n/g' K2P_nano.config
+
+        cd /opt/rt-n56u/trunk/user/shared
+        sed -i 's/192.168.2.100/10.0.0.10/g' defaults.h
+        sed -i 's/192.168.2.1/10.0.0.1/g' defaults.h
+        sed -i 's/192.168.2.244/10.0.0.30/g' defaults.h
+        sed -i 's/"US"/"CN"/g' defaults.h
+        sed -i 's/"ntp1.aliyun.com"/"ntp.ntsc.ac.cn"/g' defaults.h
+        sed -i 's/2001:470:0:50::2/cn.ntp.org.cn/g' defaults.h
+
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/' /opt/rt-n56u/trunk/user/www/n56u_ribbon_fixed/Restarting.asp
 
