@@ -64,6 +64,10 @@ jobs:
         sed -i 's/192.168.2.1/10.0.0.1/g' dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/g' n56u_ribbon_fixed/Restarting.asp
 
+        cd /opt/rt-n56u/trunk
+        sed -i 's/099/$(shell date +%m%d 2>/dev/null)/g' versions.inc
+        sed -i 's/=$(shell git rev-parse --short=7 HEAD 2>/dev/null)/$(shell date +%Y 2>/dev/null)/g' versions.inc
+
     - name: 开始编译
       run: |
         cd /opt/rt-n56u/trunk
