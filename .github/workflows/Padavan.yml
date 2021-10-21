@@ -18,7 +18,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y install unzip libtool-bin curl cmake gperf gawk wget \
-             flex bison nano xxd fakeroot kmod cpio git python-docutils  \
+             flex bison nano xxd fakeroot kmod cpio git python3-docutils  \
              gettext automake autopoint texinfo build-essential help2man \
              pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev    \
              libncurses5-dev libltdl-dev libc-dev-bin
@@ -36,6 +36,7 @@ jobs:
     - name: 自定义配置
       run: |
         cd /opt/rt-n56u/trunk/configs/templates
+        sed -i 's/#CONFIG_FIRMWARE_CPU_SLEEP=y/CONFIG_FIRMWARE_CPU_SLEEP=y/g' K2P_nano.config
         sed -i 's/SMBD36=y/SMBD36=n/g' K2P_nano.config
         sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' K2P_nano.config
         sed -i 's/SFTP=y/SFTP=n/g' K2P_nano.config
@@ -44,6 +45,7 @@ jobs:
         sed -i 's/XUPNPD=y/XUPNPD=n/g' K2P_nano.config
         sed -i 's/FFMPEG_NEW=y/FFMPEG_NEW=n/g' K2P_nano.config
         sed -i 's/CURL=y/CURL=n/g' K2P_nano.config
+        sed -i 's/NAPT66=y/NAPT66=n/g' K2P_nano.config
         sed -i 's/TTYD=y/TTYD=n/g' K2P_nano.config
         sed -i 's/HTOP=y/HTOP=n/g' K2P_nano.config
         sed -i 's/NANO=y/NANO=n/g' K2P_nano.config
