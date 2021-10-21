@@ -34,8 +34,7 @@ jobs:
     - name: 自定义配置
       run: |
         cd /opt/rt-n56u/trunk/configs/templates
-        echo 'CONFIG_FIRMWARE_CPU_900MHZ=y' >> K2P_nano.config
-        #sed -i 's/\#CONFIG_FIRMWARE_CPU_SLEEP=y/CONFIG_FIRMWARE_CPU_SLEEP=y/g' K2P_nano.config
+        sed -i 's/\#CONFIG_FIRMWARE_CPU_SLEEP=y/CONFIG_FIRMWARE_CPU_SLEEP=y/g' K2P_nano.config
         sed -i 's/SMBD36=y/SMBD36=n/g' K2P_nano.config
         sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' K2P_nano.config
         sed -i 's/SFTP=y/SFTP=n/g' K2P_nano.config
