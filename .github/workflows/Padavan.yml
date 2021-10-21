@@ -10,6 +10,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: 安装go
+      uses: actions/setup-go@v2
+
     - name: 安装依赖
       env:
         DEBIAN_FRONTEND: noninteractive
