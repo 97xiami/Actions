@@ -64,6 +64,10 @@ jobs:
         sed -i 's/192.168.2.1/10.0.0.1/g' dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/g' n56u_ribbon_fixed/Restarting.asp
 
+    - name: 添加xray
+      run: |
+        cp -r xray /opt/rt-n56u/trunk/user
+
     - name: 开始编译
       run: |
         cd /opt/rt-n56u/trunk
