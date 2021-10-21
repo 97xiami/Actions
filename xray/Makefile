@@ -7,7 +7,7 @@ config:
 
 build:
 	cd Xray-core; \
-	go env -w GO111MODULE=off; \
+	go env -w GO111MODULE=on; \
 	GOOS=linux GOARCH=mipsle go build -o xray -trimpath -ldflags "-s -w -buildid=" ./main
 
 romfs​:
