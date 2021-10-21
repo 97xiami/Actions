@@ -36,8 +36,7 @@ jobs:
         cd /opt/rt-n56u/trunk/configs/templates
         #sed -i 's/\#CONFIG_FIRMWARE_CPU_SLEEP=y/CONFIG_FIRMWARE_CPU_SLEEP=y/g' K2P_nano.config
         #sed -i '153s;n;y;' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/Kconfig
-        sed -i '277d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
-        sed -i '282d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
+        sed -i '277d;283d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
         cat /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
         sed -i 's/SMBD36=y/SMBD36=n/g' K2P_nano.config
         sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' K2P_nano.config
