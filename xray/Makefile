@@ -12,4 +12,4 @@ build:
 
 romfs​:
 	$(​ROMFSINST​)​ -p +x ​$(DIR)/Xray-core/xray /usr/bin/xray
-	$(ROMFSINST) -p -x $(DIR)/cacert.pem /usr/lib/cacert.pem
+	//$(ROMFSINST) -p -x $(DIR)/cacert.pem /usr/lib/cacert.pem
