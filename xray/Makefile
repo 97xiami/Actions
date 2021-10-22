@@ -1,5 +1,5 @@
-THISDIR​ = ​$(​shell​ pwd)
-all​:config build compress
+THISDIR​ = ​/opt/rt-n56u/trunk/user/xray
+all​:clean config build compress
 
 config:
 	git clone --depth=1 https://github.com/XTLS/Xray-core; \
@@ -15,6 +15,11 @@ compress:
 	tar xf upx-3.96-amd64_linux.tar.xz; \
 	mv upx-3.96-amd64_linux/upx .; \
 	./upx --best --lzma Xray-core/xray
+
+clean:
+	rm -rf Xray-core; \
+	rm -rm upx*; \
+	rm cacert.pem
 
 romfs:
 	$(ROMFSINST) -p +x ​$(THISDIR)/Xray-core/xray /usr/bin/xray
