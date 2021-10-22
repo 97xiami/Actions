@@ -8,7 +8,7 @@ config:
 build:
 	cd Xray-core; \
 	go env -w GO111MODULE=on; \
-	GOOS=linux GOARCH=mipsle go build -o xray -trimpath -ldflags "-s -w -buildid=" ./main
+	GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -o xray -trimpath -ldflags "-s -w -buildid=" ./main
 
 compress:
 	wget https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz; \
