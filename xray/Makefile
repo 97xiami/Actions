@@ -18,7 +18,7 @@ compress:
 
 clean:
 	rm -rf Xray-core; \
-	rm -rm upx*; \
+	rm -rf upx*; \
 	rm cacert.pem
 
 romfs:
