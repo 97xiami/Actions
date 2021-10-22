@@ -23,6 +23,6 @@ clean:
 	rm -rf Xray-core/xray
 
 romfs:
-	$(ROMFSINST) -S $(THISDIR)/Xray-core/xray /usr/bin/xray
-	$(ROMFSINST) -p -x $(THISDIR)/cacert.pem /usr/lib/cacert.pem
-	$(ROMFSINST) -p +x $(THISDIR)/run.sh /etc/storage/xray/run.sh
+	$(ROMFSINST) -S $(THISDIR)Xray-core/xray /usr/bin/xray
+	$(ROMFSINST) -p -x $(THISDIR)cacert.pem /usr/lib/cacert.pem
+	$(ROMFSINST) -p +x $(THISDIR)run.sh /etc/storage/xray/run.sh
