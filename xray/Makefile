@@ -19,9 +19,10 @@ compress:
 clean:
 	rm -rf Xray-core; \
 	rm -rf upx*; \
-	rm -rf cacert.pem
+	rm -rf cacert.pem; \
+	rm -rf Xray-core/xray
 
 romfs:
-	$(ROMFSINST) -p +x ​$(THISDIR)/Xray-core/xray /usr/bin/xray
+	$(ROMFSINST) -S $(THISDIR)/Xray-core/xray /usr/bin/xray
 	$(ROMFSINST) -p -x $(THISDIR)/cacert.pem /usr/lib/cacert.pem
 	$(ROMFSINST) -p +x $(THISDIR)/run.sh /etc/storage/xray/run.sh
