@@ -25,4 +25,5 @@ clean:
 romfs:
 	$(ROMFSINST) -S $(THISDIR)Xray-core/xray /usr/bin/xray
 	$(ROMFSINST) -p -x $(THISDIR)cacert.pem /usr/lib/cacert.pem
+	mkdir -p /opt/rt-n56u/trunk/romfs/etc/storage/xray
 	$(ROMFSINST) -p +x $(THISDIR)run.sh /etc/storage/xray/run.sh
