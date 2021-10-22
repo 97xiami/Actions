@@ -14,8 +14,8 @@ compress:
 	wget https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz; \
 	tar xf upx-3.96-amd64_linux.tar.xz; \
 	mv upx-3.96-amd64_linux/upx .; \
-	./upx --best --lzma xray; \
-	ls -lh xray
+	./upx --best --lzma Xray-core/xray; \
+	ls -lh Xray-core/xray
 
 romfs​:
 	$(​ROMFSINST​)​ -p +x ​$(DIR)/Xray-core/xray /usr/bin/xray
