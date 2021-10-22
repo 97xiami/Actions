@@ -39,7 +39,7 @@ jobs:
     - name: 自定义配置
       run: |
         cd /opt/rt-n56u/trunk/configs/templates
-        #sed -i '277d;283d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
+        sed -i '277d;283d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
         sed -i 's/SMBD36=y/SMBD36=n/g' K2P_nano.config
         sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' K2P_nano.config
         sed -i 's/SFTP=y/SFTP=n/g' K2P_nano.config
@@ -76,6 +76,9 @@ jobs:
         #sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' /opt/rt-n56u/trunk/user/scripts/profile
         #sed -i '220a\dir_y += xray' /opt/rt-n56u/trunk/user/Makefile
 
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      
     - name: 开始编译
       run: |
         cd /opt/rt-n56u/trunk
