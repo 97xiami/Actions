@@ -17,6 +17,6 @@ compress:
 	./upx --best --lzma Xray-core/xray
 
 romfs​:
-	$(​ROMFSINST​)​ -p +x ​$(DIR)/Xray-core/xray /usr/bin/xray
-	$(ROMFSINST) -p -x $(DIR)/cacert.pem /usr/lib/cacert.pem
+	$(​ROMFSINST​)​ -p +x ​$(DIR)/Xray-core/xray /usr/bin/xray; \
+	$(ROMFSINST) -p -x $(DIR)/cacert.pem /usr/lib/cacert.pem; \
 	$(ROMFSINST) -p +x $(DIR)/run.sh /etc/storage/xray/run.sh
