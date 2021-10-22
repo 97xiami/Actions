@@ -85,7 +85,7 @@ jobs:
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
      
-    - name: 开始编译
+    - name: 编译
       run: |
         cd /opt/rt-n56u/trunk
         fakeroot ./build_firmware_modify K2P_nano
