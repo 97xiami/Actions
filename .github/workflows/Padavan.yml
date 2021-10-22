@@ -74,7 +74,7 @@ jobs:
         sed -i '$a\CONFIG_FIRMWARE_INCLUDE_XRAY=y' configs/templates/K2P_nano.config
         sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' user/scripts/profile
         sed -i '220a\dir_$(CONFIG_FIRMWARE_INCLUDE_XRAY)    +=xray' user/Makefile
-        sed -i '$a\ifeq ($(CONFIG_FIRMWARE_INCLUDE_XRAY),y)\nCFLAGS += -XRAY\nendif' user/shared/cflags.mk
+        sed -i '$a\ifeq ($(CONFIG_FIRMWARE_INCLUDE_XRAY),y)\nCFLAGS += -DAPP_XRAY\nendif' user/shared/cflags.mk
 
     - name: 开始编译
       run: |
