@@ -10,14 +10,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: 安装go
-      uses: actions/setup-go@v2
-      with:
-        go-version: '1.17.2'
+#    - name: 安装go
+#      uses: actions/setup-go@v2
+#      with:
+#        go-version: '1.17.2'
 
     - name: 安装依赖
-      env:
-        DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt update
         sudo apt -y install unzip libtool-bin curl cmake gperf gawk wget \
