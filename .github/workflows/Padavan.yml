@@ -2,11 +2,6 @@ name: Build Padavan
 
 on:
   workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
 
 jobs:
   build:
@@ -112,4 +107,3 @@ jobs:
       uses: 97xiami/delete-workflow-runs@main
       with:
         retain_days: 1
-        keep_minimum_runs: 0
