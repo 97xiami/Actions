@@ -70,9 +70,12 @@ jobs:
     - name: 添加xray
       run: |
         cp -r xray /opt/rt-n56u/trunk/user
-        sed -i '$a\CONFIG_FIRMWARE_INCLUDE_XRAY=y' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
-        sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' /opt/rt-n56u/trunk/user/scripts/profile
-      
+        cd /opt/rt-n56u/trunk
+        sed -i '$a\CONFIG_FIRMWARE_INCLUDE_XRAY=y' configs/templates/K2P_nano.config
+        sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' user/scripts/profile
+        sed -i '220a\dir_$(CONFIG_FIRMWARE_INCLUDE_XRAY)    +=xray' user/Makefile
+        sed -i '$a\ifeq ($(CONFIG_FIRMWARE_INCLUDE_LRZSZ),y)\nCFLAGS += -DAPP_LRZSZ\n endif' user/shared/cflags.mk
+
     - name: 开始编译
       run: |
         cd /opt/rt-n56u/trunk
