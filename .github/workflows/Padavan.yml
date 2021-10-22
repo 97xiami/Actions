@@ -82,7 +82,7 @@ jobs:
         sed -i '$a\ifeq ($(CONFIG_FIRMWARE_INCLUDE_XRAY),y)\nCFLAGS += -DAPP_XRAY\nendif' user/shared/cflags.mk
 
     - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@v1.0.0
+      uses: mxschmitt/action-tmate@v3
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
      
     - name: 编译
