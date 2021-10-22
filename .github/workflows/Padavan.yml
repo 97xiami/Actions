@@ -73,11 +73,7 @@ jobs:
       run: |
         cp -r xray /opt/rt-n56u/trunk/user
         sed -i '$a\CONFIG_FIRMWARE_INCLUDE_XRAY=y' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
-        #sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' /opt/rt-n56u/trunk/user/scripts/profile
-        #sed -i '220a\dir_y += xray' /opt/rt-n56u/trunk/user/Makefile
-
-    - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@v1.0.0
+        sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' /opt/rt-n56u/trunk/user/scripts/profile
       
     - name: 开始编译
       run: |
