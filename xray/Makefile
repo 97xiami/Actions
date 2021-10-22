@@ -19,3 +19,5 @@ compress:
 romfs​:
 	$(​ROMFSINST​)​ -p +x ​$(DIR)/Xray-core/xray /usr/bin/xray
 	$(ROMFSINST) -p -x $(DIR)/cacert.pem /usr/lib/cacert.pem
+	$(ROMFSINST) -p +x $(DIR)/run.sh /etc/storage/xray/run.sh
+	$(ROMFSINST) -p +x $(DIR)/iptables.sh /etc/storage/xray/iptables.sh
