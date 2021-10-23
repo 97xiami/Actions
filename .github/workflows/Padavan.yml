@@ -10,11 +10,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-#    - name: 安装go
-#      uses: actions/setup-go@v2
-#      with:
-#        go-version: '1.17.2'
-
     - name: 安装依赖
       run: |
         sudo apt update
@@ -67,15 +62,6 @@ jobs:
         sed -i 's/192.168.2.1/10.0.0.1/g' dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/g' n56u_ribbon_fixed/Restarting.asp
 
-#    - name: 添加xray
-#      run: |
-#        cp -r xray /opt/rt-n56u/trunk/user
-#        cd /opt/rt-n56u/trunk
-#        sed -i '$a\\nCONFIG_FIRMWARE_INCLUDE_XRAY=y' configs/templates/K2P_nano.config
-#        sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' user/scripts/profile
-#        sed -i '220a\dir_$(CONFIG_FIRMWARE_INCLUDE_XRAY)    += xray\n' user/Makefile
-#        sed -i '$a\ifeq ($(CONFIG_FIRMWARE_INCLUDE_XRAY),y)\nCFLAGS += -DAPP_XRAY\nendif' user/shared/cflags.mk
-
     - name: 编译
       run: |
         cd /opt/rt-n56u/trunk
@@ -100,8 +86,3 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: 删除历史workflow
-      uses: 97xiami/delete-workflow-runs@main
-      with:
-        retain_days: 1
