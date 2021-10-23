@@ -42,6 +42,7 @@ jobs:
         cd lede
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        make defconfig
         make -j$(nproc) download
 
     - name: SSH连接
