@@ -17,6 +17,7 @@ jobs:
 
     - name: 配置环境
       run: |
+        sudo apt update
         sudo apt -y install build-essential asciidoc libssl-dev \
              binutils bzip2 gawk gettext gperf libncurses5-dev \
              libz-dev patch python3 python2.7 unzip zlib1g-dev \
