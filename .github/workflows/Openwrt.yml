@@ -8,14 +8,9 @@ on:
         required: false
         default: false
 
-env:
-  FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .config
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
