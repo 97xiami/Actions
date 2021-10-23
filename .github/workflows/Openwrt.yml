@@ -31,10 +31,6 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/coolsnowwolf/lede
 
-    - name: SSH连接
-      uses: mxschmitt/action-tmate@v3
-      if: github.event.inputs.ssh == 'true'
-
     - name: 自定义配置
       run: |
         cd lede
@@ -52,6 +48,10 @@ jobs:
         cd lede
         make defconfig
         make -j$(nproc) download
+
+    - name: SSH连接
+      uses: mxschmitt/action-tmate@v3
+      if: github.event.inputs.ssh == 'true'
 
     - name: 编译
       id: build
