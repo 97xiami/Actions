@@ -6,7 +6,6 @@ on:
       ssh:
         description: 'SSH连接'
         required: false
-        default: 'false'
 
 jobs:
   build:
