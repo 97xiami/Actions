@@ -45,7 +45,7 @@ jobs:
 
     - name: SSH连接
       uses: mxschmitt/action-tmate@v3
-      if: (github.event.inputs.ssh)
+      if: (github.event.inputs.ssh == 'true')
 
     - name: 下载软件包
       run: |
