@@ -29,7 +29,11 @@ jobs:
 
     - name: 克隆源码
       run: |
-        git clone --depth=1 https://github.com/coolsnowwolf/lede 
+        git clone --depth=1 https://github.com/coolsnowwolf/lede
+
+    - name: SSH连接
+      uses: mxschmitt/action-tmate@v3
+      if: github.event.inputs.ssh == 'true'
 
     - name: 自定义配置
       run: |
@@ -42,10 +46,6 @@ jobs:
         cd lede
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
-    - name: SSH连接
-      uses: mxschmitt/action-tmate@v3
-      if: github.event.inputs.ssh == 'true'
 
     - name: 下载软件包
       run: |
