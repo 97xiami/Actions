@@ -43,7 +43,7 @@ jobs:
         ./scripts/feeds install -a
 
     - name: SSH连接
-      use: mxschmitt/action-tmate@v3
+      uses: mxschmitt/action-tmate@v3
       if: (github.event.inputs.ssh)
 
     - name: 下载软件包
