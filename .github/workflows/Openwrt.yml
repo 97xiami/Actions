@@ -37,16 +37,11 @@ jobs:
         sed -i '$a\src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
         cp ../Openwrt/k2p.config .config
 
-    - name: 升级安装feeds
+    - name: 更新安装feeds
       run: |
         cd lede
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
-    - name: 下载软件包
-      run: |
-        cd lede
-        make defconfig
         make -j$(nproc) download
 
     - name: SSH连接
