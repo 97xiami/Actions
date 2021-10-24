@@ -72,7 +72,7 @@ jobs:
       with:
         tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         files: firmware/*
-        body: ${{ env.FILE_SHA256 }}
+        body: "sha256: ${{ env.FILE_SHA256 }}"
 
     - name: 删除旧Release
       uses: 97xiami/delete-older-releases@master
