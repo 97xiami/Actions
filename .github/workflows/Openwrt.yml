@@ -57,7 +57,7 @@ jobs:
         cd lede
         make -j3 || make -j1 V=s
         echo "DEVICE_NAME=$(sed -n '/^CONFIG_TARGET.*DEVICE.*=y/p' .config | sed -rn 's/.*_DEVICE_(.*)=y/\1/p')" >> $GITHUB_ENV
-        echo "FILE_DATE=$(date +"%m%d")" >> $GITHUB_ENV
+        echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
         echo "FILE_SHA256=$(sha256sum -b bin/targets/*/*/*sysupgrade.bin | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
         
     - name: 准备固件
