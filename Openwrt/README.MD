@@ -1,6 +1,6 @@
 斐讯分区刷入
 
-启动脚本
+系统日志报错
 ```bash
 touch /etc/bench.log
 ```
