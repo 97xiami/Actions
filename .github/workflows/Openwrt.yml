@@ -74,7 +74,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: Openwrt_${{ env.DIRMWARE }}_${{ env.FILE_DATE }}
+        tag_name: Openwrt_${{ env.FIRMWARE }}_${{ env.FILE_DATE }}
         files: firmware/*
         body: "sha256: ${{ env.FILE_SHA256 }}"
 
