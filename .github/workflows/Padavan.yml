@@ -78,6 +78,7 @@ jobs:
         cd /opt/rt-n56u/trunk
         fakeroot ./build_firmware_modify ${{ env.FIRMWARE }}
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
+        echo "FILE_SHA256=$(sha256sum -b images/*.trx | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
 
     - name: 上传固件至release
       uses: 97xiami/action-gh-release@master
@@ -86,6 +87,7 @@ jobs:
       with:
         tag_name: Padavan_${{ env.FIRMWARE }}_${{ env.FILE_DATE }}
         files: /opt/rt-n56u/trunk/images/*.trx
+        body: "sha256: ${{ env.FILE_SHA256 }}"
 
     - name: 删除旧版固件
       uses: 97xiami/delete-older-releases@master
