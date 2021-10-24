@@ -2,6 +2,13 @@ name: Build Padavan
 
 on:
   workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH连接'
+        required: false
+
+env:
+  FIRMWARE: K2P_nano
 
 jobs:
   build:
@@ -33,22 +40,22 @@ jobs:
       run: |
         cd /opt/rt-n56u/trunk/configs/templates
         sed -i '277d;283d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
-        sed -i 's/SMBD36=y/SMBD36=n/g' K2P_nano.config
-        sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' K2P_nano.config
-        sed -i 's/SFTP=y/SFTP=n/g' K2P_nano.config
-        sed -i 's/OPENSSH=y/OPENSSH=n/g' K2P_nano.config
-        sed -i 's/OPENSSL_EC=y/OPENSSL_EC=n/g' K2P_nano.config
-        sed -i 's/XUPNPD=y/XUPNPD=n/g' K2P_nano.config
-        sed -i 's/FFMPEG_NEW=y/FFMPEG_NEW=n/g' K2P_nano.config
-        sed -i 's/CURL=y/CURL=n/g' K2P_nano.config
-        sed -i 's/NAPT66=y/NAPT66=n/g' K2P_nano.config
-        sed -i 's/TTYD=y/TTYD=n/g' K2P_nano.config
-        sed -i 's/HTOP=y/HTOP=n/g' K2P_nano.config
-        sed -i 's/NANO=y/NANO=n/g' K2P_nano.config
-        sed -i 's/IPERF3=y/IPERF3=n/g' K2P_nano.config
-        sed -i 's/MTR=y/MTR=n/g' K2P_nano.config
-        sed -i 's/SOCAT=y/SOCAT=n/g' K2P_nano.config
-        sed -i 's/SRELAY=y/SRELAY=n/g' K2P_nano.config
+        sed -i 's/SMBD36=y/SMBD36=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/EAP_PEAP=y/EAP_PEAP=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/SFTP=y/SFTP=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/OPENSSH=y/OPENSSH=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/OPENSSL_EC=y/OPENSSL_EC=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/XUPNPD=y/XUPNPD=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/FFMPEG_NEW=y/FFMPEG_NEW=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/CURL=y/CURL=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/NAPT66=y/NAPT66=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/TTYD=y/TTYD=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/HTOP=y/HTOP=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/NANO=y/NANO=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/IPERF3=y/IPERF3=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/MTR=y/MTR=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/SOCAT=y/SOCAT=n/g' ${{ env.FIRMWARE }}.config
+        sed -i 's/SRELAY=y/SRELAY=n/g' ${{ env.FIRMWARE }}.config
 
         cd /opt/rt-n56u/trunk/user/shared
         sed -i 's/192.168.2.100/10.0.0.10/g' defaults.h
@@ -62,27 +69,28 @@ jobs:
         sed -i 's/192.168.2.1/10.0.0.1/g' dict/CN.dict
         sed -i 's/192.168.2.1/10.0.0.1/g' n56u_ribbon_fixed/Restarting.asp
 
+    - name: SSH连接
+      uses: mxschmitt/action-tmate@v3
+      if: github.event.inputs.ssh == 'true'
+
     - name: 编译
       run: |
         cd /opt/rt-n56u/trunk
-        fakeroot ./build_firmware_modify K2P_nano
-        echo "STATU=success" >> $GITHUB_ENV
-        echo "FILE_NAME=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        fakeroot ./build_firmware_modify ${{ env.FIRMWARE }}
+        echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
 
     - name: 上传固件至release
-      if: ${{ success() }}
       uses: 97xiami/action-gh-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.FILE_NAME }}
+        tag_name: Padavan_${{ env.FIRMWARE }}_${{ env.FILE_DATE }}
         files: /opt/rt-n56u/trunk/images/*.trx
 
     - name: 删除旧版固件
-      if: ${{ success() }}
       uses: 97xiami/delete-older-releases@master
       with:
-        keep_latest: 3
+        keep_latest: 5
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
