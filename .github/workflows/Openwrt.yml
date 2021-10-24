@@ -21,10 +21,11 @@ jobs:
              binutils bzip2 gawk gettext gperf libncurses5-dev \
              libz-dev patch python3 python2.7 unzip zlib1g-dev \
              lib32gcc1 libc6-dev-i386 subversion flex uglifyjs \
-             git-core gcc-multilib p7zip rsync msmtp git swig \
-             libglib2.0-dev xmlto qemu-utils libelf-dev libtool \
+             git-core gcc-multilib p7zip rsync tree swig msmtp \
+             libglib2.0-dev xmlto qemu-utils libelf-dev antlr3 \
              automake autopoint device-tree-compiler curl wget \
-             g++-multilib  p7zip-full upx texinfo autoconf tree
+             g++-multilib  p7zip-full upx texinfo autoconf git \
+             libtool
         sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: 克隆源码
