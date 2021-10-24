@@ -11,6 +11,11 @@ IP地址：10.0.0.1
 touch /etc/bench.log
 ```
 
+定时重启WAN口
+```bash
+30 5 * * * ifup wan
+```
+
 指定ip限速
 ```bash
 iptables -t filter -I FORWARD -m limit -s 10.0.0.1 --limit 1000/s --limit-burst 100000 -j ACCEPT
