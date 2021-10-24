@@ -32,17 +32,18 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/coolsnowwolf/lede
 
-    - name: 自定义配置
+    - name: 自定义feeds
       run: |
         cd lede
         sed -i '$a\src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
-        cp ../Openwrt/k2p.config .config
-
-    - name: 更新安装feeds
-      run: |
-        cd lede
+        ./scripts/feeds clean
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+
+    - name: 下载package
+      run: |
+        cd lede
+        cp ../Openwrt/k2p.config .config
         make -j3 download
 
     - name: SSH连接
