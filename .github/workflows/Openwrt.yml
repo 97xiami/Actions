@@ -54,21 +54,24 @@ jobs:
       run: |
         cd lede
         make -j3 V=s || make -j1 V=s
-        echo "DEVICE_NAME=$(sed -n '/^CONFIG_TARGET.*DEVICE.*=y/p' .config | sed -r 's/.*_DEVICE_(.*)=y/\1/')" >> $GITHUB_ENV
+        echo "DEVICE_NAME=$(sed -n '/^CONFIG_TARGET.*DEVICE.*=y/' .config | sed -r 's/.*_DEVICE_(.*)=y/\1/')" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-
-    - name: test
+        echo "FILE_SHA256=$(sha256sum -b bin/targets/*/*/*sysupgrade.bin | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
+        
+    - name: 准备固件
       run: |
-        tree lede/bin
-        rm -rf bin/targets/*/*/packages
-
+        mkdir firmware
+        cp lede/bin/targets/*/*/config.buildinfo firmware
+        cp lede/bin/targets/*/*/*sysupgrade.bin firmware
+        
     - name: 上传固件至release
       uses: 97xiami/action-gh-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        path: lede/bin/targets/*/*
+        path: firmware
+        body: ${{ env.FILE_SHA256 }}
 
     - name: 删除旧Release
       uses: 97xiami/delete-older-releases@master
