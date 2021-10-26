@@ -34,8 +34,6 @@ jobs:
     - name: 克隆源码
       run: |
         git clone https://github.com/coolsnowwolf/lede
-        cd lede
-        git reset --hard 420f085
 
     - name: 自定义feeds
       run: |
