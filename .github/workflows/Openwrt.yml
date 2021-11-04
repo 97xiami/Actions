@@ -70,7 +70,7 @@ jobs:
         cp lede/bin/targets/*/*/*sysupgrade.bin firmware
         
     - name: 上传固件至release
-      uses: 97xiami/action-gh-release@master
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -79,7 +79,7 @@ jobs:
         body: "MD5: ${{ env.FILE_MD5 }}"
 
     - name: 删除旧Release
-      uses: 97xiami/delete-older-releases@master
+      uses: dev-drprasad/delete-older-releases@v0.2.0
       with:
         keep_latest: 5
         delete_tags: true
@@ -87,7 +87,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 删除历史workflow
-      uses: 97xiami/delete-workflow-runs@main
+      uses: Mattraks/delete-workflow-runs@main
       with:
         retain_days: 1
         keep_minimum_runs: 0
