@@ -81,7 +81,7 @@ jobs:
         echo "FILE_SHA256=$(sha256sum -b images/*.trx | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
 
     - name: 上传固件至release
-      uses: 97xiami/action-gh-release@master
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -90,7 +90,7 @@ jobs:
         body: "sha256: ${{ env.FILE_SHA256 }}"
 
     - name: 删除旧版固件
-      uses: 97xiami/delete-older-releases@master
+      uses: dev-drprasad/delete-older-releases@v0.2.0
       with:
         keep_latest: 5
         delete_tags: true
