@@ -53,7 +53,7 @@ jobs:
 
     - name: SSH连接
       uses: mxschmitt/action-tmate@v3
-      if: github.event.inputs.ssh == 'true'
+      if: github.event.inputs.ssh != ''
 
     - name: 编译
       id: build
