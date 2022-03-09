@@ -93,7 +93,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
+        tag_name: ${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         files: /tmp/${{ env.DEVICE_NAME }}.tar.gz
 
     - name: 删除旧Release
