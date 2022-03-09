@@ -71,7 +71,7 @@ jobs:
         
     - name: 准备文件
       run: |
-        cd openwrt/bin/targets/*/*
+        cd lede/bin/targets/*/*
         rm -rf packages
         tar -czvf ${{ env.FIRMWARE }}.tar.gz .
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
@@ -97,7 +97,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: openwrt/bin/targets/*/*/${{ env.FIRMWARE }}.tar.gz
+        files: lede/bin/targets/*/*/${{ env.FIRMWARE }}.tar.gz
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
