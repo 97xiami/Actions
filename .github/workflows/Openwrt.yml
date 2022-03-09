@@ -29,22 +29,28 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: 克隆源码
+      env: 
+        REPO_URL: https://github.com/coolsnowwolf/lede
+        REPO_BRANCH: master
       run: |
-        git clone --depth=1 https://github.com/coolsnowwolf/lede
+        git clone --depth=1 $REPO_URL -b $REPO_BRANCH
 
     - name: 自定义feeds
       run: |
         cd lede
+        echo "src-git helloworld https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
     - name: 自定义配置
+      env:
+        CONFIG_FILE: 'x86_64.config'
       run: |
         cd lede
-        #cp ../.config .config
+        [ -e $CONFIG_FILE ] && cp ../$CONFIG_FILE .config
         sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
         make defconfig
-        make -j3 download
+        make -j$(nproc) download
 
     - name: SSH连接
       uses: mxschmitt/action-tmate@master
@@ -55,16 +61,18 @@ jobs:
       id: build
       run: |
         cd lede
-        make -j3 || make -j1 V=s
+        make -j$(nproc) V=s || make -j1 V=s
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        #echo "FILE_MD5=$(md5sum -b bin/targets/*/*/*sysupgrade.bin | sed -rn 's/.*(\w{32}).*/\1/p')" >> $GITHUB_ENV
+        
         
     - name: 准备文件
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
+        tar -czvf ${{ env.FIRMWARE }}.tar.gz .
+        echo "FILE_SHA256=$(sha256sum ${{ env.FIRMWARE }}.tar.gz | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         
     - name: 上传固件至release
@@ -73,8 +81,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: ${{ env.FIRMWARE }}/*
-        #body: "MD5: ${{ env.FILE_MD5 }}"
+        files: openwrt/bin/targets/*/*/${{ env.FIRMWARE }}
+        body: "SHA256: ${{ env.FILE_SHA256 }}"
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
