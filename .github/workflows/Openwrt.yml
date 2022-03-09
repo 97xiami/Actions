@@ -66,14 +66,13 @@ jobs:
         make -j$(nproc) V=s || make -j1 V=s
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
         
     - name: 准备文件
       run: |
         cd lede/bin/targets/*/*
         rm -rf packages
-        tar -czvf /tmp/${{ env.FIRMWARE }}.tar.gz .
+        tar -czvf /tmp/${{ env.DEVICE_NAME }}.tar.gz .
         
     - name: 上传配置文件
       run: |
@@ -96,7 +95,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: /tmp/${{ env.FIRMWARE }}.tar.gz
+        files: /tmp/${{ env.DEVIDE_NAME }}.tar.gz
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
