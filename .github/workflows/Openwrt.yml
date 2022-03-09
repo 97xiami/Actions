@@ -63,7 +63,7 @@ jobs:
       id: build
       run: |
         cd lede
-        make -j$(nproc) V=s || make -j1 V=s
+        make -j$(nproc) || make -j1 V=s
         
     - name: 准备文件
       run: |
