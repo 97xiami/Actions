@@ -35,7 +35,7 @@ jobs:
     - name: 自定义feeds
       run: |
         cd lede
-        sed -i '$a\src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
+        #sed -i '$a\src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
@@ -73,7 +73,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: Openwrt_${{ env.FILE_DATE }}
+        tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         files: ${{ env.FIRMWARE }}/*
         #body: "MD5: ${{ env.FILE_MD5 }}"
 
