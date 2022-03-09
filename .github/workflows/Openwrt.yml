@@ -6,6 +6,9 @@ on:
       ssh:
         description: 'SSH连接'
         required: false
+        
+env:
+  CONFIG_FILE: 'x86_64.config'
 
 jobs:
   build:
@@ -36,8 +39,6 @@ jobs:
         git clone --depth=1 $REPO_URL -b $REPO_BRANCH
 
     - name: 自定义配置
-      env:
-        CONFIG_FILE: 'x86_64.config'
       run: |
         cd lede
         #添加helloworld
@@ -73,17 +74,30 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         tar -czvf ${{ env.FIRMWARE }}.tar.gz .
-        echo "FILE_SHA256=$(sha256sum ${{ env.FIRMWARE }}.tar.gz | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         
-    - name: 上传固件至release
+    - name: 上传配置文件
+      run: |
+        git config --global user.name '${{ secrets.GIT_NAME }}'
+        git config --global user.email '${{ secrets.GIT_EMAIL }}'
+        cp lede/.config $CONFIG_FILE
+        rm -rf lede
+        git add .
+        git commit -m "upload $CONFIG_FILE"
+    
+    - name: Push
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        branch: main
+        
+    - name: 上传固件到release
       uses: softprops/action-gh-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: Openwrt_${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: openwrt/bin/targets/*/*/${{ env.FIRMWARE }}
-        body: "SHA256: ${{ env.FILE_SHA256 }}"
+        files: openwrt/bin/targets/*/*/${{ env.FIRMWARE }}.tar.gz
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
@@ -93,7 +107,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: 删除历史workflow
+    - name: 删除旧workflow
       uses: Mattraks/delete-workflow-runs@main
       with:
         retain_days: 1
