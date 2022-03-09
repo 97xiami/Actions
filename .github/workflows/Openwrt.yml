@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@main
 
     - name: 配置环境
       run: |
@@ -47,7 +47,8 @@ jobs:
         make -j3 download
 
     - name: SSH连接
-      uses: mxschmitt/action-tmate@v3
+      uses: mxschmitt/action-tmate@master
+      timeout-minutes: 15
       if: github.event.inputs.ssh != ''
 
     - name: 编译
@@ -67,7 +68,7 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         
     - name: 上传固件至release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -76,7 +77,7 @@ jobs:
         #body: "MD5: ${{ env.FILE_MD5 }}"
 
     - name: 删除旧Release
-      uses: dev-drprasad/delete-older-releases@v0.2.0
+      uses: dev-drprasad/delete-older-releases@master
       with:
         keep_latest: 5
         delete_tags: true
