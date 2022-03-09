@@ -108,3 +108,8 @@ jobs:
       uses: Mattraks/delete-workflow-runs@main
       with:
         retain_days: 1
+
+    - name: Debug
+      uses: mxschmitt/action-tmate@master
+      timeout-minutes: 15
+      if: ${{ failure() }}
