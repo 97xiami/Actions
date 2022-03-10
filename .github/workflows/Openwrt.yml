@@ -72,6 +72,7 @@ jobs:
         echo "DEVICE_NAME=$(basename openwrt*manifest .manifest)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
         tar -czvf /tmp/${{ env.DEVICE_NAME }}.tar.gz .
+        ls /tmp/
         
     - name: 上传固件到release
       uses: softprops/action-gh-release@master
@@ -79,7 +80,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: /tmp/*tar.gz
+        files: /tmp/*
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
