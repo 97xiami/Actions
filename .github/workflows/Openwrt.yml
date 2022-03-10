@@ -71,16 +71,15 @@ jobs:
         rm -rf packages
         echo "DEVICE_NAME=$(basename openwrt*manifest .manifest)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
-        tar -czvf ~/OpenWrt.tar.gz .
-        ls ~
+        tar -czvf /tmp/${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar.gz .
         
     - name: 上传固件到release
-      uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: ~/OpenWrt.tar.gz
+        files: /tmp/${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}.tar.gz
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
