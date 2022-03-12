@@ -32,30 +32,27 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: 克隆源码
-      env: 
-        REPO_URL: https://github.com/coolsnowwolf/lede
-        REPO_BRANCH: master
       run: |
-        git clone --depth=1 $REPO_URL -b $REPO_BRANCH
+        git clone --depth=1 https://github.com/coolsnowwolf/lede
 
     - name: 自定义配置
       run: |
         cd lede
         #添加helloworld
         echo "src-git helloworld https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
-        #./scripts/feeds update -a
-        #./scripts/feeds install -a
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
         #复制配置文件
         [ -e $CONFIG_FILE ] && cp ../$CONFIG_FILE .config
         #修改lan ip
         sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
         #修改时区
         sed -i "s/'UTC'/'UTC+8'\n   set system.@system[-1].zonename='$utc_name'/g" package/base-files/files/bin/config_generate
-        #make defconfig
-        #make -j$(nproc) download
+        make defconfig
+        make -j$(nproc) download
 
     - name: SSH连接
-      uses: mxschmitt/action-tmate@v3
+      uses: mxschmitt/action-tmate@master
       if: github.event.inputs.ssh != ''
 
     - name: 编译
@@ -67,18 +64,21 @@ jobs:
     - name: 准备文件
       run: |
         cd lede/bin/targets/*/*
+        tar -czvf /tmp/Packages.tar.gz packages/*
         rm -rf packages
         echo "DEVICE_NAME=$(basename openwrt*manifest .manifest)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
         tar -czvf /tmp/OpenWrt.tar.gz .
         
     - name: 上传固件到release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: /tmp/OpenWrt.tar.gz
+        files: |
+          /tmp/OpenWrt.tar.gz
+          /tmp/Packages.tar.gz
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
