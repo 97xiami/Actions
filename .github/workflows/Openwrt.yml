@@ -38,10 +38,7 @@ jobs:
         echo "src-git helloworld https://github.com/fw876/helloworld.git" >> feeds.conf.default
         
     - name: 更新feeds
-      run: cd lede && ./scripts/feeds update -a
-
-    - name: 安装feeds
-      run: cd lede && ./scripts/feeds install -a
+      run: cd lede && ./scripts/feeds update -a && ./scripts/feeds install -a
       
     - name: 自定义配置
       run: |
