@@ -46,7 +46,10 @@ jobs:
     - name: 自定义配置
       run: |
         #复制配置文件
-        [ -e $CONFIG_FILE ] && cp ../$CONFIG_FILE .config
+        [ -e $CONFIG_FILE ] && cp $CONFIG_FILE lede/.config
+        cd lede
+        make defconfig
+        diff .config ../$CONFIG_FILE
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
 
@@ -57,7 +60,6 @@ jobs:
     - name: 下载额外包
       run: |
         cd lede
-        make defconfig
         make -j$(nproc) download
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
