@@ -20,20 +20,18 @@ jobs:
     - name: 配置环境
       run: |
         sudo apt update
-        sudo apt -y install build-essential asciidoc libssl-dev \
-             binutils bzip2 gawk gettext gperf libncurses5-dev \
-             libz-dev patch python3 python2.7 unzip zlib1g-dev \
-             lib32gcc1 libc6-dev-i386 subversion flex uglifyjs \
-             git-core gcc-multilib p7zip rsync tree swig msmtp \
-             libglib2.0-dev xmlto qemu-utils libelf-dev antlr3 \
-             automake autopoint device-tree-compiler curl wget \
-             g++-multilib  p7zip-full upx texinfo autoconf git \
-             libtool
+        sudo apt full-upgrade -y
+        sudo apt install -y ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+          gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev lrzsz \
+          libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool git qemu-utils \
+          mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip libpython3-dev \
+          rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
         sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: 克隆源码
       run: |
-        git clone --depth=1 https://github.com/coolsnowwolf/lede
+        git clone https://github.com/coolsnowwolf/lede
 
     - name: 自定义配置
       run: |
@@ -45,13 +43,9 @@ jobs:
         #复制配置文件
         [ -e $CONFIG_FILE ] && cp ../$CONFIG_FILE .config
         make defconfig
+        diff ../$CONFIG_FILE .config -y -W 50
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
-        #修改时区
-        sed -i "s/'UTC'/'UTC+8'\n   set system.@system[-1].zonename='$utc_name'/g" package/base-files/files/bin/config_generate
-        make -j$(nproc) download
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
 
     - name: SSH连接
       uses: mxschmitt/action-tmate@master
@@ -61,6 +55,9 @@ jobs:
       id: build
       run: |
         cd lede
+        make -j$(nproc) download
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
         make -j$(nproc)
         
     - name: 整理文件
