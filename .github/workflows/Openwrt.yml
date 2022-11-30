@@ -88,15 +88,17 @@ jobs:
       run: |
         cp lede/.config x86_64.config
         rm -rf lede
-        mkdir -p ~/.ssh/
-        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
         git config --global user.name '${{ secrets.GIT_NAME }}'
         git config --global user.email '${{ secrets.GIT_EMAIL }}'
         git add .
         git commit -m "upload x86_64.config"
-        git push
+
+    - name: Push
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
 
     - name: 删除旧Release
       uses: dev-drprasad/delete-older-releases@master
