@@ -32,13 +32,19 @@ jobs:
       run: |
         git clone https://github.com/coolsnowwolf/lede
 
-    - name: 自定义配置
+    - name: 添加Helloworld
       run: |
         cd lede
-        #添加helloworld
         echo "src-git helloworld https://github.com/fw876/helloworld.git" >> feeds.conf.default
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+        
+    - name: 更新feeds
+      run: cd lede && ./scripts/feeds update -a
+
+    - name: 安装feeds
+      run: cd lede && ./scripts/feeds install -a
+      
+    - name: 自定义配置
+      run: |
         #复制配置文件
         [ -e $CONFIG_FILE ] && cp ../$CONFIG_FILE .config
         #修改lan ip
@@ -48,15 +54,16 @@ jobs:
       uses: mxschmitt/action-tmate@master
       if: github.event.inputs.ssh != ''
 
-    - name: 编译
-      id: build
+    - name: 下载额外包
       run: |
         cd lede
         make defconfig
         make -j$(nproc) download
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-        make -j$(nproc)
+        
+    - name: 编译
+      run: cd lede && make -j$(nproc)
         
     - name: 整理文件
       run: |
