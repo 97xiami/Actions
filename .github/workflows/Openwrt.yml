@@ -100,14 +100,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: main
 
-    - name: 删除旧Release
-      uses: dev-drprasad/delete-older-releases@master
-      with:
-        keep_latest: 5
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: 删除旧workflow
       uses: Mattraks/delete-workflow-runs@main
       with:
