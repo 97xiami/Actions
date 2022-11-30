@@ -60,6 +60,7 @@ jobs:
         
     - name: 整理文件
       run: |
+        cp lede/.config /tmp/config
         cd lede/bin/targets/*/*
         tar -czvf /tmp/Packages.tar.gz packages/*
         rm -rf packages
@@ -74,6 +75,7 @@ jobs:
       with:
         tag_name: ${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
         files: |
+          /tmp/config
           /tmp/OpenWrt.tar.gz
           /tmp/Packages.tar.gz
 
