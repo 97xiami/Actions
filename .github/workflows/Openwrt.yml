@@ -8,7 +8,7 @@ on:
         required: false
         
 env:
-  CONFIG_FILE: 'x86_64.config'
+  CONFIG_FILE: 'openwrt/x86/x86_64.config'
 
 jobs:
   build:
@@ -30,15 +30,18 @@ jobs:
 
     - name: 克隆源码
       run: |
-        git clone https://github.com/coolsnowwolf/lede
+        git clone --depth=1 https://github.com/coolsnowwolf/lede
 
-    - name: 添加Helloworld
+    - name: 添加feeds
       run: |
         cd lede
         echo "src-git helloworld https://github.com/fw876/helloworld.git" >> feeds.conf.default
         
     - name: 更新feeds
-      run: cd lede && ./scripts/feeds update -a && ./scripts/feeds install -a
+      run: |
+        cd lede
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
       
     - name: 自定义配置
       run: |
@@ -61,7 +64,9 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
         
     - name: 编译
-      run: cd lede && make -j$(nproc)
+      run: |
+        cd lede
+        make -j$(nproc) || make V=s
         
     - name: 整理文件
       run: |
@@ -86,12 +91,12 @@ jobs:
 
     - name: 上传config到git
       run: |
-        cp lede/.config x86_64.config
+        cp lede/.config $CONFIG_FILE
         rm -rf lede
         git config --global user.name '${{ secrets.GIT_NAME }}'
         git config --global user.email '${{ secrets.GIT_EMAIL }}'
         git add .
-        git commit -m "upload x86_64.config"
+        git commit -m "upload $CONFIG_FILE"
 
     - name: Push
       uses: ad-m/github-push-action@master
