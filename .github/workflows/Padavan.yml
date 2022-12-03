@@ -53,7 +53,7 @@ jobs:
         #sed -i 's/192.168.2.1/10.0.0.1/g' n56u_ribbon_fixed/Restarting.asp
 
     - name: SSH连接
-      uses: mxschmitt/action-tmate@v3
+      uses: mxschmitt/action-tmate@master
       if: github.event.inputs.ssh != ''
 
     - name: 编译
