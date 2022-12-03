@@ -40,6 +40,9 @@ jobs:
     - name: 自定义配置
       run: |
         cp padavan/${{ env.FIRMWARE }}.config /opt/rt-n56u/trunk/configs/templates/${{ env.FIRMWARE }}.config
+        
+        #删除开启CPU空闲时降频时需要手动输入y
+        sed -i '277d;283d' /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/time.c
 
         #cd /opt/rt-n56u/trunk/user/shared
         #sed -i 's/192.168.2.100/10.0.0.10/g' defaults.h
