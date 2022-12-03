@@ -9,6 +9,7 @@ on:
 
 env:
   FIRMWARE: K2P_nano
+  #FIRMWARE: PSG1218_nano
 
 jobs:
   build:
