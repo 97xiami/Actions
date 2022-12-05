@@ -51,7 +51,7 @@ jobs:
         cd lede
         make defconfig
         #判断config是否变化
-        diff lede/.config $CONFIG_FILE > /dev/null
+        diff .config ../$CONFIG_FILE > /dev/null
         if [ $0 != 0 ]; then
           echo "::set-output name=status::success"
         #修改lan ip
