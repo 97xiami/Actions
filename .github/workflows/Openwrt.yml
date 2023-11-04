@@ -52,7 +52,7 @@ jobs:
         cd lede
         make defconfig
         #修改lan ip
-        #sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
+        #sed -i 's/192.168.1.5/10.0.0.1/g' package/base-files/files/bin/config_generate
 
     - name: SSH连接
       uses: mxschmitt/action-tmate@master
@@ -91,7 +91,7 @@ jobs:
           /tmp/config
           /tmp/OpenWrt.tar.gz
           /tmp/Packages.tar.gz
-        body: "OpenWrt.tar.gz: ${{ env.FILE_SHA256 }}"
+        body: "sha256: ${{ env.FILE_SHA256 }}"
 
     - name: 上传config到git
       run: |
