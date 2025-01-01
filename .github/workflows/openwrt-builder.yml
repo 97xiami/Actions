@@ -77,14 +77,12 @@ jobs:
 
     - name: Restore OpenWrt build dependencies
       id: restore
-      uses: actions/cache@main
+      uses: actions/cache/restore@main
       with:
         path: |
           $GITHUB_WORKSPACE/openwrt/build_dir
           $GITHUB_WORKSPACE/openwrt/staging_dir
         key: ${{ runner.os }}-openwrt-$CONFIG_FILE
-        restore-keys: |
-          ${{ runner.os }}-openwrt-$CONFIG_FILE
         
     - name: Compile the firmware
       id: compile
@@ -96,14 +94,12 @@ jobs:
     - name: Cache OpenWrt build dependencies
       id: cache
       if: steps.compile.outputs.status == 'success'
-      uses: actions/cache@main
+      uses: actions/cache/save@main
       with:
         path: |
           $GITHUB_WORKSPACE/openwrt/build_dir
           $GITHUB_WORKSPACE/openwrt/staging_dir
         key: ${{ runner.os }}-openwrt-$CONFIG_FILE
-        restore-keys: |
-          ${{ runner.os }}-openwrt-$CONFIG_FILE
         
     - name: Organize files
       if: steps.compile.outputs.status == 'success'
