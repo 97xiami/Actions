@@ -122,9 +122,9 @@ jobs:
       uses: actions/cache@v4
       with:
         path: |
-          openwrt/build_dir
           openwrt/staging_dir
           openwrt/toolchain
+          openwrt/tools
         key: ${{ runner.os }}-openwrt-$CONFIG_FILE
         
     - name: Compile the firmware
