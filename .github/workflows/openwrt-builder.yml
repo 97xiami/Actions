@@ -137,6 +137,7 @@ jobs:
     - name: Organize files
       if: steps.compile.outputs.status == 'success'
       run: |
+        du -sh --max-depth=2 openwrt
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "DEVICE_NAME=$(basename openwrt*manifest .manifest)" >> $GITHUB_ENV
