@@ -1,0 +1,13 @@
+diff --git a/target/linux/mediatek/filogic/base-files/etc/board.d/02_network b/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
+index 5f311c2a..31bef600 100644
+--- a/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
++++ b/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
+@@ -56,7 +56,7 @@ mediatek_setup_interfaces()
+ 	glinet,gl-x3000|\
+ 	glinet,gl-xe3000|\
+ 	openembed,som7981)
+-		ucidef_set_interfaces_lan_wan eth1 eth0
++		ucidef_set_interfaces_lan_wan "eth0 eth1" "eth2 usb0"
+ 		;;
+ 	hf,m7986r1*)
+ 		ucidef_set_interfaces_lan_wan "lan2 lan3 lan4" "lan1 usb0"
