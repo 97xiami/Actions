@@ -1,4 +1,4 @@
-name: OpenWrt Builder
+name: x86_64
 
 on: 
   schedule:
