@@ -110,7 +110,7 @@ jobs:
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
         #将eth0和eth1分配到br-lan，eth2和usb0分配到br-wan
-        cd openwrt && git apply ../zzz-default.settings.patch ../02_network.patch
+        cd openwrt && git apply ../zzz-default-settings.patch ../02_network.patch
 
     - name: Download package
       run: |
