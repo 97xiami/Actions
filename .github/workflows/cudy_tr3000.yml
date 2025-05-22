@@ -146,12 +146,15 @@ jobs:
 
     - name: Update .config
       run: |
-        cp openwrt/bin/targets/*/*/config.buildinfo cudy_tr3000.config
-        rm -rf openwrt
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        git commit -am "update .config"
-        git push
+        if diff -q openwrt/bin/targets/*/*/config.buildinfo cudy_tr3000.config >/dev/null; then
+          continue
+        else
+          cp -f openwrt/bin/targets/*/*/config.buildinfo cudy_tr3000.config
+          rm -rf openwrt
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git commit -am "update .config"
+          git push
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
