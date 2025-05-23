@@ -1,0 +1,28 @@
+diff --git a/package/emortal/default-settings/files/99-default-settings-chinese b/package/emortal/default-settings/files/99-default-settings-chinese
+index d640c6bf0..b7f736328 100755
+--- a/package/emortal/default-settings/files/99-default-settings-chinese
++++ b/package/emortal/default-settings/files/99-default-settings-chinese
+@@ -15,6 +15,23 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
+
+ 		set system.@imm_init[0].system_chn="1"
+ 		commit system
++
++		del network.wan
++		del network.wan6
++		del firewall.@zone[1].network
++		del network.@device[1]
++
++		set network.wan_eth2=interface
++		set network.wan_eth2.device="eth2"
++		set network.wan_eth2.proto="dhcp"
++		add_list firewall.@zone[1].network="wan_eth2"
++
++		set network.wan_usb0=interface
++		set network.wan_usb0.device="usb0"
++		set network.wan_usb0.proto="dhcp"
++		add_list firewall.@zone[1].network="wan_usb0"
++		commit network
++		commit firewall
+ 	EOF
+ fi
+

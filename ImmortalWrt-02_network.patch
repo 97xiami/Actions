@@ -1,0 +1,13 @@
+diff --git a/target/linux/mediatek/filogic/base-files/etc/board.d/02_network b/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
+index b5200ec67..3e77fab32 100644
+--- a/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
++++ b/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
+@@ -104,7 +104,7 @@ mediatek_setup_interfaces()
+ 	glinet,gl-xe3000|\
+ 	openembed,som7981|\
+ 	openwrt,one)
+-		ucidef_set_interfaces_lan_wan eth1 eth0
++		ucidef_set_interfaces_lan_wan "eth0 eth1" "eth2 usb0"
+ 		;;
+ 	dlink,aquila-pro-ai-m30-a1|\
+ 	dlink,aquila-pro-ai-m60-a1)
