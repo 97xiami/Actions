@@ -107,7 +107,7 @@ jobs:
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
         #将eth0和eth1分配到br-lan，eth2和usb0分配到wan，分区调整为112M
-        cd openwrt && git apply ../ImmortalWrt/99-default-settings-chinese.patch ../ImmortalWrt/02_network.patch ../ImmortalWrt-mt7981b-cudy-tr3000-v1.patch
+        cd openwrt && git apply ../ImmortalWrt/99-default-settings-chinese.patch ../ImmortalWrt/02_network.patch ../ImmortalWrt/mt7981b-cudy-tr3000-v1.patch
 
     - name: Download package
       run: |
