@@ -97,7 +97,6 @@ jobs:
     - name: Load custom feeds & Update feeds
       run: |
         cd openwrt
-        echo "src-git helloworld https://github.com/fw876/helloworld.git" >> feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
       
@@ -108,7 +107,7 @@ jobs:
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
         #将eth0和eth1分配到br-lan，eth2和usb0分配到wan
-        cd openwrt && git apply ../LEDE-zzz-default-settings.patch ../LEDE-02_network.patch
+        cd openwrt && git apply ../LEDE/zzz-default-settings.patch ../LEDE/02_network.patch
 
     - name: Download package
       run: |
