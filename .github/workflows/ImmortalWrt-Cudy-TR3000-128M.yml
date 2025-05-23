@@ -130,21 +130,22 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "BUILD_DATE=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
         
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ImmortalWrt-Cudy-TR3000-128M_${{ env.BUILD_DATE }}
-        files: openwrt/bin/targets/*/*/*
-        body_path: openwrt/bin/targets/*/*/sha256sums
+        tag_name: $(basename $CONFIG_FILE .config)_${{ env.BUILD_DATE }}
+        files: ${{ env.FIRMWARE }}/*
+        body_path: ${{ env.FIRMWARE }}/sha256sums
 
     - name: Update .config
       run: |
-        if diff -q openwrt/bin/targets/*/*/config.buildinfo $CONFIG_FILE >/dev/null; then
+        if diff -q ${{ env.FIRMWARE }}/config.buildinfo $CONFIG_FILE >/dev/null; then
           continue
         else
-          cp -f openwrt/bin/targets/*/*/config.buildinfo $CONFIG_FILE
+          cp -f ${{ env.FIRMWARE }}/config.buildinfo $CONFIG_FILE
           rm -rf openwrt
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
