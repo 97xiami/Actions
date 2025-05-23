@@ -130,12 +130,12 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "BUILD_DATE=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
+        echo "TAG_NAME=$(basename $CONFIG_FILE .config)_$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
         
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: $(basename $CONFIG_FILE .config)_${{ env.BUILD_DATE }}
+        tag_name: ${{ env.TAG_NAME }}
         files: ${{ env.FIRMWARE }}/*
         body_path: ${{ env.FIRMWARE  }}/sha256sums
 
