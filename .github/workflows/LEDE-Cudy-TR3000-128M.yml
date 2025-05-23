@@ -1,4 +1,4 @@
-name: Cudy_TR3000
+name: LEDE-Cudy-TR3000-128M
 
 on: 
   workflow_dispatch:
@@ -104,7 +104,7 @@ jobs:
     - name: Load custom configuration
       run: |
         #复制配置文件
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e $CONFIG_FILE ] && cp -f $CONFIG_FILE openwrt/.config
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
         #将eth0和eth1分配到br-lan，eth2和usb0分配到wan
@@ -128,7 +128,6 @@ jobs:
     - name: Organize files
       if: steps.compile.outputs.status == 'success'
       run: |
-        du -h -d2 openwrt
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "BUILD_DATE=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
@@ -139,6 +138,19 @@ jobs:
         tag_name: LEDE-Cudy-TR3000-128M_${{ env.BUILD_DATE }}
         files: openwrt/bin/targets/*/*/*
         body_path: openwrt/bin/targets/*/*/sha256sums
+
+    - name: Update .config
+      run: |
+        if diff -q openwrt/bin/targets/*/*/config.buildinfo $CONFIG_FILE >/dev/null; then
+          continue
+        else
+          cp -f openwrt/bin/targets/*/*/config.buildinfo $CONFIG_FILE
+          rm -rf openwrt
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git commit -am "update $CONFIG_FILE"
+          git push
+        fi
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
