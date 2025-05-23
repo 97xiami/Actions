@@ -5,7 +5,7 @@ on:
         
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-24.10
+  REPO_BRANCH: v24.10.1
   CONFIG_FILE: ImmortalWrt-Cudy-TR3000-128M.config
   TZ: Asia/Shanghai
 
@@ -92,12 +92,11 @@ jobs:
 
     - name: Clone source code
       run: |
-        git clone --depth=1 $REPO_URL -b $REPO_BRANCH openwrt
+        git clone --depth=1 $REPO_URL -b $REPO_BRANCH --single-branch openwrt
         
     - name: Load custom feeds & Update feeds
       run: |
         cd openwrt
-        #echo "src-git helloworld https://github.com/fw876/helloworld.git" >> feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
       
@@ -107,8 +106,8 @@ jobs:
         [ -e $CONFIG_FILE ] && cp -f $CONFIG_FILE openwrt/.config
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
-        #将eth0和eth1分配到br-lan，eth2和usb0分配到wan
-        cd openwrt && git apply ../ImmortalWrt/99-default-settings-chinese.patch ../ImmortalWrt/02_network.patch
+        #将eth0和eth1分配到br-lan，eth2和usb0分配到wan，分区调整为112M
+        cd openwrt && git apply ../ImmortalWrt/99-default-settings-chinese.patch ../ImmortalWrt/02_network.patch ../ImmortalWrt-mt7981b-cudy-tr3000-v1.patch
 
     - name: Download package
       run: |
@@ -131,12 +130,12 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "BUILD_DATE=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
+        echo "TAG_NAME=$(basename $CONFIG_FILE .config)_$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
         
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: $(basename $CONFIG_FILE .config)_${{ env.BUILD_DATE }}
+        tag_name: ${{ env.TAG_NAME }}
         files: ${{ env.FIRMWARE }}/*
         body_path: ${{ env.FIRMWARE }}/sha256sums
 
