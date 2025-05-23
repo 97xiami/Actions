@@ -6,17 +6,17 @@ index de75637f..ec79ce92 100755
  	add_list system.ntp.server='ntp.tencent.com'
  	add_list system.ntp.server='ntp.ntsc.ac.cn'
  	add_list system.ntp.server='time.apple.com'
-+	
++
 +	del network.wan
 +	del network.wan6
 +	del firewall.@zone[1].network
 +	del network.@device[1]
-+	
++
 +	set network.wan_eth2=interface
 +	set network.wan_eth2.device="eth2"
 +	set network.wan_eth2.proto="dhcp"
 +	add_list firewall.@zone[1].network="wan_eth2"
-+	
++
 +	set network.wan_usb0=interface
 +	set network.wan_usb0.device="usb0"
 +	set network.wan_usb0.proto="dhcp"
@@ -27,6 +27,6 @@ index de75637f..ec79ce92 100755
 +uci commit firewall
 +
 +cp /etc/vlmcsd/vlmcsd.ini /etc/vlmcsd.ini
- 
+
  rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
  rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
