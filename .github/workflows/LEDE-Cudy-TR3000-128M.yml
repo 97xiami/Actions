@@ -1,4 +1,4 @@
-name: cudy_tr3000
+name: Cudy_TR3000
 
 on: 
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: cudy_tr3000.config
+  CONFIG_FILE: LEDE-Cudy-TR3000-128M.config
   TZ: Asia/Shanghai
 
 jobs:
@@ -136,7 +136,7 @@ jobs:
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: LEDE-Cudy-TR3000-128m_${{ env.BUILD_DATE }}
+        tag_name: LEDE-Cudy-TR3000-128M_${{ env.BUILD_DATE }}
         files: openwrt/bin/targets/*/*/*
         body_path: openwrt/bin/targets/*/*/sha256sums
 
