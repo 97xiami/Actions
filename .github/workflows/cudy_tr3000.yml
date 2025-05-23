@@ -108,7 +108,7 @@ jobs:
         #修改lan ip
         #sed -i 's/192.168.1.1/10.0.0.1/g' openwrt/package/base-files/files/bin/config_generate
         #将eth0和eth1分配到br-lan，eth2和usb0分配到wan
-        cd openwrt && git apply --whitespace=fix ../zzz-default-settings.patch ../02_network.patch
+        cd openwrt && git apply ../zzz-default-settings.patch ../02_network.patch
 
     - name: Download package
       run: |
@@ -130,19 +130,15 @@ jobs:
       run: |
         du -h -d2 openwrt
         cd openwrt/bin/targets/*/*
-        echo "DEVICE_NAME=$(basename openwrt*manifest .manifest)" >> $GITHUB_ENV
-        echo "FILE_DATE=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
-        echo "FILE_SHA256=$(sha256sum -b openwrt*squashfs-sysupgrade.bin | sed -rn 's/.*(\w{64}).*/\1/p')" >> $GITHUB_ENV
+        rm -rf packages
+        echo "BUILD_DATE=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
         
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        files: |
-          openwrt/bin/targets/*/*/config.buildinfo
-          openwrt/bin/targets/*/*/openwrt*.manifest
-          openwrt/bin/targets/*/*/openwrt*squashfs-sysupgrade.bin
-        body: "SHA256: ${{ env.FILE_SHA256 }}"
+        tag_name: LEDE-Cudy-TR3000-128m_${{ env.BUILD_DATE }}
+        files: openwrt/bin/targets/*/*/*
+        body_path: openwrt/bin/targets/*/*/sha256sums
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
