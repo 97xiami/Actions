@@ -141,9 +141,7 @@ jobs:
 
     - name: Update .config
       run: |
-        if diff -q ${{ env.FIRMWARE }}/config.buildinfo $CONFIG_FILE >/dev/null; then
-          continue
-        else
+        if ! diff -q ${{ env.FIRMWARE }}/config.buildinfo $CONFIG_FILE >/dev/null; then
           git pull
           cp -f ${{ env.FIRMWARE }}/config.buildinfo $CONFIG_FILE
           rm -rf openwrt
