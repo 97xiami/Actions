@@ -2,7 +2,7 @@ diff --git a/package/emortal/default-settings/files/99-default-settings-chinese 
 index d640c6bf0..b7f736328 100755
 --- a/package/emortal/default-settings/files/99-default-settings-chinese
 +++ b/package/emortal/default-settings/files/99-default-settings-chinese
-@@ -15,6 +15,34 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
+@@ -15,6 +15,33 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
 
  		set system.@imm_init[0].system_chn="1"
  		commit system
