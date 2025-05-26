@@ -2,7 +2,7 @@ diff --git a/package/emortal/default-settings/files/99-default-settings-chinese 
 index d640c6bf0..b7f736328 100755
 --- a/package/emortal/default-settings/files/99-default-settings-chinese
 +++ b/package/emortal/default-settings/files/99-default-settings-chinese
-@@ -15,6 +15,46 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
+@@ -15,6 +15,47 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
 
  		set system.@imm_init[0].system_chn="1"
  		commit system
@@ -21,12 +21,12 @@ index d640c6bf0..b7f736328 100755
 +		set network.wan6_eth2.proto="dhcpv6"
 +		set network.wan6_eth2.device="eth2"
 +		add_list firewall.@zone[1].network="wan6_eth2"
-+   set dhcp.wan6_eth2=dhcp
-+   set dhcp.wan6_eth2.interface="wan6_eth2"
-+   set dhcp.wan6_eth2.ignore="1"
-+   set dhcp.wan6_eth2.master="1"
-+   set dhcp.wan6_eth2.ra="relay"
-+   set dhcp.wan6_eth2.ndp="relay"
++		set dhcp.wan6_eth2=dhcp
++		set dhcp.wan6_eth2.interface="wan6_eth2"
++		set dhcp.wan6_eth2.ignore="1"
++		set dhcp.wan6_eth2.master="1"
++		set dhcp.wan6_eth2.ra="relay"
++		set dhcp.wan6_eth2.ndp="relay"
 +
 +		set network.wan_usb0=interface
 +		set network.wan_usb0.proto="dhcp"
@@ -37,14 +37,14 @@ index d640c6bf0..b7f736328 100755
 +		set network.wan6_usb0.proto="dhcp"
 +		set network.wan6_usb0.device="usb0"
 +		add_list firewall.@zone[1].network="wan6_usb0"
-+   set dhcp.wan6_eth2=dhcp
-+   set dhcp.wan6_eth2.interface="wan6_eth2"
-+   set dhcp.wan6_eth2.ignore="1"
-+   set dhcp.wan6_eth2.master="1"
-+   set dhcp.wan6_eth2.ra="relay"
-+   set dhcp.wan6_eth2.ndp="relay"
++		set dhcp.wan6_usb0=dhcp
++		set dhcp.wan6_usb0.interface="wan6_usb0"
++		set dhcp.wan6_usb0.ignore="1"
++		set dhcp.wan6_usb0.master="1"
++		set dhcp.wan6_usb0.ra="relay"
++		set dhcp.wan6_usb0.ndp="relay"
 +
-+   commit dhcp
++		commit dhcp
 +		commit network
 +		commit firewall
  	EOF
