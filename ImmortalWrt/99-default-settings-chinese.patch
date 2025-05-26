@@ -2,7 +2,7 @@ diff --git a/package/emortal/default-settings/files/99-default-settings-chinese 
 index d640c6bf0..b7f736328 100755
 --- a/package/emortal/default-settings/files/99-default-settings-chinese
 +++ b/package/emortal/default-settings/files/99-default-settings-chinese
-@@ -15,6 +15,47 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
+@@ -15,6 +15,51 @@ if ! uci -q get system.@imm_init[0].system_chn > "/dev/null"; then
 
  		set system.@imm_init[0].system_chn="1"
  		commit system
@@ -43,6 +43,10 @@ index d640c6bf0..b7f736328 100755
 +		set dhcp.wan6_usb0.master="1"
 +		set dhcp.wan6_usb0.ra="relay"
 +		set dhcp.wan6_usb0.ndp="relay"
++
++		set network.lan.ip6ifaceid="eui64"
++		set dhcp.lan.ra="relay"
++		set dhcp.lan.ndp="relay"
 +
 +		commit dhcp
 +		commit network
