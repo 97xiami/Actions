@@ -2,7 +2,7 @@ diff --git a/package/lean/default-settings/files/zzz-default-settings b/package/
 index de75637f..ec79ce92 100755
 --- a/package/lean/default-settings/files/zzz-default-settings
 +++ b/package/lean/default-settings/files/zzz-default-settings
-@@ -9,8 +9,27 @@ uci -q batch <<-EOF
+@@ -9,8 +9,57 @@ uci -q batch <<-EOF
  	add_list system.ntp.server='ntp.tencent.com'
  	add_list system.ntp.server='ntp.ntsc.ac.cn'
  	add_list system.ntp.server='time.apple.com'
@@ -13,16 +13,45 @@ index de75637f..ec79ce92 100755
 +	del network.@device[1]
 +
 +	set network.wan_eth2=interface
-+	set network.wan_eth2.device="eth2"
 +	set network.wan_eth2.proto="dhcp"
++	set network.wan_eth2.device="eth2"
 +	add_list firewall.@zone[1].network="wan_eth2"
 +
++	set network.wan6_eth2=interface
++	set network.wan6_eth2.proto="dhcpv6"
++	set network.wan6_eth2.device="eth2"
++	add_list firewall.@zone[1].network="wan6_eth2"
++	set dhcp.wan6_eth2=dhcp
++	set dhcp.wan6_eth2.interface="wan6_eth2"
++	set dhcp.wan6_eth2.ignore="1"
++	set dhcp.wan6_eth2.master="1"
++	set dhcp.wan6_eth2.ra="relay"
++	set dhcp.wan6_eth2.ndp="relay"
++ 
 +	set network.wan_usb0=interface
-+	set network.wan_usb0.device="usb0"
 +	set network.wan_usb0.proto="dhcp"
++	set network.wan_usb0.device="usb0"
 +	add_list firewall.@zone[1].network="wan_usb0"
++
++	set network.wan6_usb0=interface
++	set network.wan6_usb0.proto="dhcp"
++	set network.wan6_usb0.device="usb0"
++	add_list firewall.@zone[1].network="wan6_usb0"
++	set dhcp.wan6_usb0=dhcp
++	set dhcp.wan6_usb0.interface="wan6_usb0"
++	set dhcp.wan6_usb0.ignore="1"
++	set dhcp.wan6_usb0.master="1"
++	set dhcp.wan6_usb0.ra="relay"
++	set dhcp.wan6_usb0.ndp="relay"
++
++	set network.lan.ip6ifaceid="eui64"
++	set dhcp.lan.ra="relay"
++	set dhcp.lan.ndp="relay"
++
++	set dhcp.@dnsmasq[0].sequential_ip="1"
  EOF
  uci commit system
++uci commit dhcp
 +uci commit network
 +uci commit firewall
 +
