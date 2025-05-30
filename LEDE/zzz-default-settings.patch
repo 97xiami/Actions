@@ -2,7 +2,7 @@ diff --git a/package/lean/default-settings/files/zzz-default-settings b/package/
 index de75637f..ec79ce92 100755
 --- a/package/lean/default-settings/files/zzz-default-settings
 +++ b/package/lean/default-settings/files/zzz-default-settings
-@@ -9,8 +9,57 @@ uci -q batch <<-EOF
+@@ -9,8 +9,56 @@ uci -q batch <<-EOF
  	add_list system.ntp.server='ntp.tencent.com'
  	add_list system.ntp.server='ntp.ntsc.ac.cn'
  	add_list system.ntp.server='time.apple.com'
