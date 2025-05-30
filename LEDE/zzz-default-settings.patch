@@ -27,7 +27,7 @@ index de75637f..ec79ce92 100755
 +	set dhcp.wan6_eth2.master="1"
 +	set dhcp.wan6_eth2.ra="relay"
 +	set dhcp.wan6_eth2.ndp="relay"
-+ 
++
 +	set network.wan_usb0=interface
 +	set network.wan_usb0.proto="dhcp"
 +	set network.wan_usb0.device="usb0"
