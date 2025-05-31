@@ -144,6 +144,8 @@ jobs:
     - name: Start SSH via tmate
       uses: mxschmitt/action-tmate@v3
       if: ${{ github.event.inputs.ssh == 'true' }}
+      with:
+        limit-access-to-actor: true
         
     - name: Compile the firmware
       id: compile
