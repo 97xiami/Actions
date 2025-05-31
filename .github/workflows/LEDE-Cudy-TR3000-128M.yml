@@ -40,6 +40,7 @@ jobs:
         echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
 
     - name: Before freeing up disk space
+      if: ${{ github.event.inputs.ssh == 'false' }}
       run: |
         echo "Before freeing up disk space"
         echo "=============================================================================="
@@ -47,6 +48,7 @@ jobs:
         echo "=============================================================================="
 
     - name: "Optimize Disk Space"
+      if: ${{ github.event.inputs.ssh == 'false' }}
       uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
       with:
         operate_sudo: "True"
@@ -68,6 +70,7 @@ jobs:
         os_swap: "True"
 
     - name: Freeing up disk space
+      if: ${{ github.event.inputs.ssh == 'false' }}
       uses: easimon/maximize-build-space@master
       with: 
         root-reserve-mb: 2048
@@ -79,6 +82,7 @@ jobs:
         remove-docker-images: 'true'
 
     - name: Free up disk space complete
+      if: ${{ github.event.inputs.ssh == 'false' }}
       run: |
         echo "Free up disk space complete"
         echo "=============================================================================="
