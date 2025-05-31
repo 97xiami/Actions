@@ -110,18 +110,18 @@ jobs:
         
         #将eth0和eth1分配到br-lan，eth2和usb0分配到wan
         cd openwrt && git apply ../LEDE/zzz-default-settings.patch ../LEDE/02_network.patch
-
+        
+        # 增加helloworld
+        echo 'src-git helloworld https://github.com/fw876/helloworld.git' >> feeds.conf.default
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        
         # 增加QModem
         echo >> feeds.conf.default
         echo 'src-git qmodem https://github.com/FUjr/QModem.git;main' >> feeds.conf.default
         ./scripts/feeds update qmodem
         ./scripts/feeds install -a -f -p qmodem
 
-        # 增加helloworld
-        echo 'src-git helloworld https://github.com/fw876/helloworld.git' >> feeds.conf.default
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-        
     - name: Download package
       run: |
         cd openwrt
