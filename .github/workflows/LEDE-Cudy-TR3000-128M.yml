@@ -2,6 +2,17 @@ name: LEDE-Cudy-TR3000-128M
 
 on: 
   workflow_dispatch:
+    inputs:
+      ssh:
+        description: "ssh connect"
+        required: true
+        type: boolean
+        default: false
+      upload_config:
+        description: "upload config"
+        required: true
+        type: boolean
+        default: false
         
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -129,6 +140,10 @@ jobs:
         make -j$(nproc) download
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+
+    - name: Start SSH via tmate
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ github.event.inputs.ssh == 'true' }}
         
     - name: Compile the firmware
       id: compile
@@ -152,7 +167,8 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
         body_path: ${{ env.FIRMWARE  }}/sha256sums
 
-    - name: Update .config
+    - name: Upload .config
+      if: ${{ github.event.inputs.upload_config == 'true' }}
       run: |
         if ! diff -q ${{ env.FIRMWARE }}/config.buildinfo $CONFIG_FILE >/dev/null; then
           git pull
@@ -160,7 +176,7 @@ jobs:
           rm -rf openwrt
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git commit -am "update $CONFIG_FILE"
+          git commit -am "upload $CONFIG_FILE"
           git push
         fi
 
