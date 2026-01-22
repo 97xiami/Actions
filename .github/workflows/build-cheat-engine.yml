@@ -11,28 +11,31 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        arch: [ x64, x64_O4_AVX2 ]
+        include:
+          - target: x64
+            build_flag: "Release 64-bit O4"
+            zip_name: Cheat-Engine_x64.zip
+
+          - target: x64_O4_AVX2
+            build_flag: "Release 64-bit O4 AVX2"
+            zip_name: Cheat-Engine_x64_O4_AVX2.zip
+
     steps:
     - uses: actions/checkout@v5
       with:
         repository: cheat-engine/cheat-engine
-        ref: ${{ ENV.TAG }}
+        ref: "${{ ENV.TAG }}"
 
     - uses: gcarreno/setup-lazarus@v3
       with:
         lazarus-version: "2.2.2"
     
-    - run: |
-        case: "${{ matrix.arch }}" in
-          x64)
-            lazbuild "Cheat Engine/cheatengine.lpi" --build-mode="Release 64-bit"
-          x64_O4_AVX2)
-            lazbuild "Cheat Engine/cheatengine.lpi" --build-mode="Release 64-bit O4 AVX2"
-    
-    - run: 7z a -tzip Cheat-Engine_${{ matrix.arch }}.zip "./Cheat Engine/bin/*" -r
+    - run: lazbuild "Cheat Engine/cheatengine.lpi" --build-mode="${{ matrix.build_flag }}"
+         
+    - run: 7z a -tzip "${{ matrix.zip_name }}" "./Cheat Engine/bin/*" -r
 
     - name: Upload Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: Cheat-Engine_${{ ENV.TAG }}
-        files: Cheat-Engine_${{ matrix.arch }}.zip
+        files: "${{ matrix.zip_name }}"
