@@ -8,6 +8,10 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        arch: [ Release 64-Bit, Release 64-BitO4 AVX2 ]
     steps:
     - uses: actions/checkout@v5
       with:
@@ -18,14 +22,12 @@ jobs:
       with:
         lazarus-version: "2.2.2"
     
-    - run: lazbuild "Cheat Engine/cheatengine.lpi" --build-mode="Release 64-Bit"
+    - run: lazbuild "Cheat Engine/cheatengine.lpi" --build-mode="${{ matrix.arch }}"
     
-    - run: lazbuild "Cheat Engine/cheatengine.lpi" --build-mode="Release 64-Bit O4 AVX2"
-    
-    - run: 7z a -tzip Cheat-Engine.zip "./Cheat Engine/bin/*" -r
+    - run: 7z a -tzip Cheat-Engine_${{ matrix.arch }}.zip "./Cheat Engine/bin/*" -r
 
     - name: Upload Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: Cheat-Engine_${{ ENV.TAG }}
-        files: Cheat-Engine.zip
+        files: Cheat-Engine_${{ matrix.arch }}.zip
