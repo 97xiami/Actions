@@ -1,0 +1,27 @@
+name: Build Cheat Engine
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        repository: cheat-engine/cheat-engine
+        ref: '7.5'
+
+    - uses: gcarreno/setup-lazarus@v3
+      with:
+        lazarus-version: "2.2.2"
+        fpc-version: "3.2.2"
+
+    - run: lazbuild -B "Cheat Engine/cheatengine.lpi" --no-write-project --os=win64 --cpu=x86_64 --build-mode="Release 64-Bit O4 AVX2"
+    
+    - run: 7z a CE.7z ".\Cheat Engine\bin\*"
+
+    - uses: actions/upload-artifact@master
+      with:
+        path: CE.7z
+        name: CE.7z
