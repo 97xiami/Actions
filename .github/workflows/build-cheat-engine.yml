@@ -13,7 +13,7 @@ jobs:
       matrix:
         include:
           - target: x64
-            build_flag: "Release 64-bit O4"
+            build_flag: "Release 64-bit"
             zip_name: Cheat-Engine_x64.zip
 
           - target: x64_O4_AVX2
