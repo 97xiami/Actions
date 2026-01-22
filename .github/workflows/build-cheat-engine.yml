@@ -24,11 +24,8 @@ jobs:
     
     - run: 7z a -tzip Cheat-Engine.zip "./Cheat Engine/bin/*" -r
 
-    - run: (Get-FileHash Cheat-Engine.zip -Algorithm SHA256).Hash | Out-File -Encoding utf8 Cheat-Engine.zip.sha256
-
     - name: Upload Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: Cheat-Engine_${{ ENV.TAG }}
         files: Cheat-Engine.zip
-        body: Cheat-Engine.zip.sha256
