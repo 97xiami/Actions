@@ -30,13 +30,9 @@ jobs:
       shell: powershell
       run: |
         Set-Location "Cheat Engine/bin/languages”
+        icacls "zh_CN" /grant Everyone:(F)
         # 删除其他翻译文件
-        Remove-Item -Path "de_DE"
-        Remove-Item -Path "fr_FR"
-        Remove-Item -Path "it_IT"
-        Remove-Item -Path "ru_RU"
         Remove-Item -Path "zh_CN"
-        Remove-Item -Path "zh_TW"
         # 获取3DMXM/Cheat-Engine-CN
         git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN zh_CN
         
