@@ -30,6 +30,7 @@ jobs:
       shell: powershell
       run: |
         Set-Location "Cheat Engine/bin/languages”
+        ls
         icacls "zh_CN" /grant Everyone:(F)
         # 删除其他翻译文件
         rmdir /s /q "zh_CN"
