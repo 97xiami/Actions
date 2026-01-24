@@ -2,9 +2,6 @@ name: Build Cheat Engine
 on:
   workflow_dispatch:
 
-env: 
-  TAG: 7.5
-
 jobs:
   build:
     runs-on: windows-latest
@@ -19,21 +16,39 @@ jobs:
             zip_name: Cheat-Engine_x64_O4_AVX2.zip
 
     steps:
-    - uses: actions/checkout@v5
+    - name: Checkout
+      uses: actions/checkout@v6
       with:
         repository: cheat-engine/cheat-engine
-        ref: "${{ ENV.TAG }}"
 
-    - uses: gcarreno/setup-lazarus@v3
+    - name: 配置编译环境
+      uses: gcarreno/setup-lazarus@v3
       with:
         lazarus-version: "2.2.2"
-    
-    - run: lazbuild -B "Cheat Engine/cheatengine.lpi" --os=win64 --cpu=x86_64 --build-mode="${{ matrix.target }}"
-         
-    - run: 7z a -tzip "${{ matrix.zip_name }}" "./Cheat Engine/bin/*" -r
 
-    - name: Upload Release
+    - name: 配置汉化
+      shell: powershell
+      run: |
+        # 删除其他翻译文件
+        Remove-Item -Path "Cheat Engine/bin/languages/de_DE" -Recurse -Force
+        Remove-Item -Path "Cheat Engine/bin/languages/fr_FR" -Recurse -Force
+        Remove-Item -Path "Cheat Engine/bin/languages/it_IT" -Recurse -Force
+        Remove-Item -Path "Cheat Engine/bin/languages/ru_RU" -Recurse -Force
+        Remove-Item -Path "Cheat Engine/bin/languages/zh_CN" -Recurse -Force
+        Remove-Item -Path "Cheat Engine/bin/languages/zh_TW" -Recurse -Force
+        # 获取3DMXM/Cheat-Engine-CN
+        git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN Cheat Engine/bin/languages/zh_CN
+        # 删除.github
+        Remove-Item -Path "Cheat Engine/bin/languages/zh_cn/.github" -Recurse -Force
+
+    - name: 开始编译 "${{ matrix.target }}"
+      run: lazbuild -B "Cheat Engine/cheatengine.lpi" --os=win64 --cpu=x86_64 --build-mode="${{ matrix.target }}"
+         
+    - name: 打包Release
+      run: 7z a -tzip "${{ matrix.zip_name }}" "./Cheat Engine/bin/*" -r
+
+    - name: 上传Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: Cheat-Engine_${{ ENV.TAG }}
+        tag_name: "Cheat Engine"
         files: "${{ matrix.zip_name }}"
