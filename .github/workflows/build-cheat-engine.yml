@@ -47,7 +47,7 @@ jobs:
       run: 7z a -tzip "${{ matrix.zip_name }}" "./Cheat Engine/bin/*" -r
 
     - name: 上传Release
-      uses: softprops/action-gh-release@v2.4.2
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: "Cheat-Engine"
         files: "${{ matrix.zip_name }}"
