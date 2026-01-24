@@ -33,6 +33,7 @@ jobs:
         icacls "zh_CN" /grant Everyone:(F)
         # 删除其他翻译文件
         Remove-Item -Path "zh_CN"
+        rmdir /s /q "zh_CN"
         # 获取3DMXM/Cheat-Engine-CN
         git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN zh_CN
         
