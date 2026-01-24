@@ -31,12 +31,12 @@ jobs:
       run: |
         Set-Location "Cheat Engine/bin/languages”
         # 删除其他翻译文件
-        Remove-Item -Path "de_DE" -Recurse -Force
-        Remove-Item -Path "fr_FR" -Recurse -Force
-        Remove-Item -Path "it_IT" -Recurse -Force
-        Remove-Item -Path "ru_RU" -Recurse -Force
-        Remove-Item -Path "zh_CN" -Recurse -Force
-        Remove-Item -Path "zh_TW" -Recurse -Force
+        Remove-Item -Path "de_DE"
+        Remove-Item -Path "fr_FR"
+        Remove-Item -Path "it_IT"
+        Remove-Item -Path "ru_RU"
+        Remove-Item -Path "zh_CN"
+        Remove-Item -Path "zh_TW"
         # 获取3DMXM/Cheat-Engine-CN
         git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN zh_CN
         
