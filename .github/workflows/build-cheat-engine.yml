@@ -27,7 +27,6 @@ jobs:
         lazarus-version: "2.2.2"
 
     - name: 配置汉化
-      shell: powershell
       run: |
         Set-Location "Cheat Engine/bin/languages”
         ls
