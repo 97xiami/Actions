@@ -49,5 +49,5 @@ jobs:
     - name: 上传Release
       uses: softprops/action-gh-release@v2.4.2
       with:
-        tag_name: "Cheat Engine"
+        tag_name: "Cheat-Engine"
         files: "${{ matrix.zip_name }}"
