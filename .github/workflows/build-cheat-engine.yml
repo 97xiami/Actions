@@ -39,9 +39,7 @@ jobs:
         Remove-Item -Path "zh_TW" -Recurse -Force
         # 获取3DMXM/Cheat-Engine-CN
         git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN zh_CN
-        # 删除.github
-        # Remove-Item -Path "zh_CN/.github" -Recurse -Force
-
+        
     - name: 开始编译 "${{ matrix.target }}"
       run: lazbuild -B "Cheat Engine/cheatengine.lpi" --os=win64 --cpu=x86_64 --build-mode="${{ matrix.target }}"
          
