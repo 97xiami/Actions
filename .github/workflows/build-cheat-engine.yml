@@ -29,17 +29,18 @@ jobs:
     - name: 配置汉化
       shell: powershell
       run: |
+        cd Cheat Engine/bin/languages/
         # 删除其他翻译文件
-        Remove-Item -Path "Cheat Engine/bin/languages/de_DE" -Recurse -Force
-        Remove-Item -Path "Cheat Engine/bin/languages/fr_FR" -Recurse -Force
-        Remove-Item -Path "Cheat Engine/bin/languages/it_IT" -Recurse -Force
-        Remove-Item -Path "Cheat Engine/bin/languages/ru_RU" -Recurse -Force
-        Remove-Item -Path "Cheat Engine/bin/languages/zh_CN" -Recurse -Force
-        Remove-Item -Path "Cheat Engine/bin/languages/zh_TW" -Recurse -Force
+        Remove-Item -Path "de_DE" -Recurse -Force
+        Remove-Item -Path "fr_FR" -Recurse -Force
+        Remove-Item -Path "it_IT" -Recurse -Force
+        Remove-Item -Path "ru_RU" -Recurse -Force
+        Remove-Item -Path "zh_CN" -Recurse -Force
+        Remove-Item -Path "zh_TW" -Recurse -Force
         # 获取3DMXM/Cheat-Engine-CN
-        git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN Cheat Engine/bin/languages/zh_CN
+        git clone --depth=1 https://github.com/3DMXM/Cheat-Engine-CN zh_CN
         # 删除.github
-        Remove-Item -Path "Cheat Engine/bin/languages/zh_cn/.github" -Recurse -Force
+        Remove-Item -Path "zh_CN/.github" -Recurse -Force
 
     - name: 开始编译 "${{ matrix.target }}"
       run: lazbuild -B "Cheat Engine/cheatengine.lpi" --os=win64 --cpu=x86_64 --build-mode="${{ matrix.target }}"
