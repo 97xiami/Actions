@@ -29,6 +29,7 @@ jobs:
       uses: gcarreno/setup-lazarus@v3
       with:
         lazarus-version: "2.2.2"
+        with-cache: true
 
     - name: 配置汉化
       run: |
@@ -45,8 +46,31 @@ jobs:
     - name: 打包Release
       run: 7z a -tzip "${{ matrix.zip_name }}" "./Cheat Engine/bin/*" -r
 
+    - name: 上传到Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: "Cheat-Engine_${{ env.TAG }}"
+        path: "${{ matrix.zip_name }}"
+        retention-days: 1
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: 下载 Artifact
+      uses: actions/download-artifact@v4
+      with:
+        path: artifact
+        merge-multiple: true
+
     - name: 上传Release
-      uses: softprops/action-gh-release@v2.4.2
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: "Cheat-Engine_${{ env.TAG }}"
-        files: "${{ matrix.zip_name }}"
+        files: |
+          artifact/Cheat-Engine_x64.zip
+          artifact/Cheat-Engine_x64_O4_AVX2.zip
