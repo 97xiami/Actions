@@ -2,6 +2,9 @@ name: Build Cheat Engine
 on:
   workflow_dispatch:
 
+env:
+  TAG: "7.5.1"
+
 jobs:
   build:
     runs-on: windows-latest
@@ -20,6 +23,7 @@ jobs:
       uses: actions/checkout@v6
       with:
         repository: cheat-engine/cheat-engine
+        ref: "${{ env.TAG }}"
 
     - name: 配置编译环境
       uses: gcarreno/setup-lazarus@v3
@@ -41,7 +45,7 @@ jobs:
         Remove-Item -Path "zh_CN/.github" -Recurse -Force
         
     - name: 开始编译 "${{ matrix.target }}"
-      run: lazbuild -B "Cheat Engine/cheatengine.lpi" --os=win64 --cpu=x86_64 --build-mode="${{ matrix.target }}"
+      run: lazbuild -B "Cheat Engine/cheatengine.lpi" --os=win64 --cpu=x86_64 --no-write-project --build-mode="${{ matrix.target }}"
          
     - name: 打包Release
       run: 7z a -tzip "${{ matrix.zip_name }}" "./Cheat Engine/bin/*" -r
@@ -49,5 +53,5 @@ jobs:
     - name: 上传Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: "Cheat-Engine"
+        tag_name: "Cheat-Engine_${{ env.TAG }}"
         files: "${{ matrix.zip_name }}"
