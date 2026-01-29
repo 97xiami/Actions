@@ -63,7 +63,7 @@ jobs:
         ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: aria2-${{ matrix.PLATFORMS }}
         path: output
@@ -80,4 +80,5 @@ jobs:
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "$(curl -fsSL https://ubuntu.com/download/alternative-downloads | grep -o 'https.*server.*torrent' | head -1)"
+
 
