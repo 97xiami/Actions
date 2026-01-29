@@ -11,11 +11,6 @@ name: Aria2 Builder
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
 
 jobs:
   build:
@@ -24,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        PLATFORMS: [amd64, arm64, armhf, i386]
+        PLATFORMS: [amd64, arm64]
         include:
         - PLATFORMS: amd64
           BUILDER_IMAGE: debian:11
@@ -32,12 +27,6 @@ jobs:
         - PLATFORMS: arm64
           BUILDER_IMAGE: debian:11
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-arm64.sh
-        - PLATFORMS: armhf
-          BUILDER_IMAGE: ubuntu:16.04
-          BUILD_SCRIPT: aria2-gnu-linux-cross-build-armhf.sh
-        - PLATFORMS: i386
-          BUILDER_IMAGE: debian:10
-          BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
 
     steps:
 
@@ -45,7 +34,9 @@ jobs:
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v6
+      with:
+        repository: P3TERX/Aria2-Pro-Core
 
     - name: Build
       env:
@@ -53,6 +44,7 @@ jobs:
         BUILDER_IMAGE: ${{ matrix.BUILDER_IMAGE }}
         BUILD_SCRIPT: ${{ matrix.BUILD_SCRIPT }}
       run: |
+        wget -O patch/0004-option-add-option-to-disable-want-digest-header.patch https://raw.githubusercontent.com/97xiami/Actions/refs/heads/main/aria2/0004-option-add-option-to-disable-want-digest-header.patch
         docker build \
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
@@ -88,3 +80,4 @@ jobs:
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "$(curl -fsSL https://ubuntu.com/download/alternative-downloads | grep -o 'https.*server.*torrent' | head -1)"
+
