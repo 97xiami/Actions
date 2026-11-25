@@ -26,7 +26,7 @@ defaults:
 
 jobs:
   build:
-    name: 编译指定的 ImmortalWrt tag
+    name: 编译 ImmortalWrt
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     permissions:
@@ -86,24 +86,25 @@ jobs:
           CONFIG_TARGET_x86=y
           CONFIG_TARGET_x86_64=y
           CONFIG_TARGET_x86_64_DEVICE_generic=y
-          CONFIG_PACKAGE_luci-app-openclash=y
           CONFIG_VHDX_IMAGES=y
+          CONFIG_PACKAGE_luci-app-openclash=y
           EOF
           make defconfig
           ./scripts/diffconfig.sh > "$RUNNER_TEMP/x86-64.diffconfig"
+          # 修复ERROR: package/feeds/packages/rust [host] failed to build.
+          sed -i 's/--set=llvm.download-ci-llvm=true/--set=llvm-download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
 
       - name: 下载源码包
         working-directory: immortalwrt
         run: |
           set -euo pipefail
-          make download -j8 || make download -j1 V=s
+          make download -j"$(nproc)" || make download -j1 V=s
 
       - name: 编译固件
         working-directory: immortalwrt
         run: |
           set -euo pipefail
-          make -j"$(nproc)" 2>&1 | tee "$RUNNER_TEMP/build.log" || \
-            make -j1 V=s 2>&1 | tee -a "$RUNNER_TEMP/build.log"
+          make -j"$(nproc)" 2>&1 | tee "$RUNNER_TEMP/build.log"
 
       - name: 整理固件与构建信息
         env:
