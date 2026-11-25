@@ -1,4 +1,4 @@
-name: ImmortalWrt x86-64 固件编译
+name: ImmortalWrt x86_64
 
 on:
   workflow_dispatch:
