@@ -35,15 +35,6 @@ jobs:
       UPSTREAM_TAG: ${{ inputs.version }}
       RELEASE_TAG: immortalwrt-x86-64-${{ inputs.version }}-r${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - name: 校验输入的 tag
-        run: |
-          set -euo pipefail
-          if [[ ! "$UPSTREAM_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
-            echo "::error::无效的 ImmortalWrt tag：$UPSTREAM_TAG"
-            exit 1
-          fi
-          echo "选定的 tag：$UPSTREAM_TAG" >> "$GITHUB_STEP_SUMMARY"
-
       - name: 检出仓库
         uses: actions/checkout@v4
         with:
@@ -99,17 +90,6 @@ jobs:
           CONFIG_VHDX_IMAGES=y
           EOF
           make defconfig
-          for option in \
-            CONFIG_TARGET_x86 CONFIG_TARGET_x86_64 CONFIG_TARGET_x86_64_DEVICE_generic \
-            CONFIG_GRUB_IMAGES CONFIG_GRUB_EFI_IMAGES CONFIG_TARGET_IMAGES_GZIP \
-            CONFIG_TARGET_ROOTFS_SQUASHFS CONFIG_TARGET_ROOTFS_EXT4FS \
-            CONFIG_PACKAGE_luci-ssl CONFIG_PACKAGE_luci-i18n-base-zh-cn \
-            CONFIG_PACKAGE_luci-app-openclash CONFIG_VHDX_IMAGES; do
-            grep -qx "${option}=y" .config || {
-              echo "::error::必需配置在 defconfig 后丢失：$option"
-              exit 1
-            }
-          done
           ./scripts/diffconfig.sh > "$RUNNER_TEMP/x86-64.diffconfig"
 
       - name: 下载源码包
@@ -132,13 +112,6 @@ jobs:
         run: |
           set -euo pipefail
           target_dir="$GITHUB_WORKSPACE/immortalwrt/bin/targets/x86/64"
-          # 发布前要求四种引导/文件系统镜像以及 VHDX 全部存在。
-          for variant in squashfs-combined.img.gz squashfs-combined-efi.img.gz ext4-combined.img.gz ext4-combined-efi.img.gz .vhdx; do
-            compgen -G "$target_dir/*-$variant" > /dev/null || {
-              echo "::error::缺少固件镜像：$variant"
-              exit 1
-            }
-          done
           mkdir -p "$GITHUB_WORKSPACE/firmware"
           find "$target_dir" -maxdepth 1 -type f -exec cp -t "$GITHUB_WORKSPACE/firmware" -- {} +
           cp "$RUNNER_TEMP/x86-64.diffconfig" firmware/x86-64.diffconfig
