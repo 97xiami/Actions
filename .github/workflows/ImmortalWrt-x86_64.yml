@@ -107,4 +107,4 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: immortalwrt-x86_64-${{ inputs.version }}
-          files: $GITHUB_WORKSPACE/immortalwrt/bin/targets/x86/64
+          files: $GITHUB_WORKSPACE/immortalwrt/bin/targets/x86/64/*
