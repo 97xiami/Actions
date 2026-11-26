@@ -43,7 +43,7 @@ jobs:
           echo "--------------------------硬盘信息--------------------------"
           echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
 
-      - name: 检出仓库
+      - name: checkout
         uses: actions/checkout@v6
         with:
           persist-credentials: false
@@ -107,4 +107,4 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: immortalwrt-x86_64-${{ inputs.version }}
-          files: $GITHUB-WORKSPACE/immortalwrt/bin/targets/x86/64
+          files: $GITHUB_WORKSPACE/immortalwrt/bin/targets/x86/64
